@@ -1,19 +1,16 @@
 fileFormatVersion: 2
-guid: 9e5bf347499c7b944949991ad41ab279
+guid: 465fbfe5f04029847abae7210fd9919d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4624245366835465743
-    second: BaseSoils_0
+      213: -4750761433519615375
+    second: Cursor_0
   - first:
-      213: -8763909670923894312
-    second: BaseSoils_1
+      213: -3340349168363038409
+    second: Cursor_1
   - first:
-      213: 7720999372096235023
-    second: BaseSoils_2
-  - first:
-      213: -7751409884150877723
-    second: BaseSoils_3
+      213: -8894989074114120652
+    second: Cursor_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -103,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BaseSoils_0
+      name: Cursor_0
       rect:
         serializedVersion: 2
         x: 0
@@ -117,14 +114,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0e497c29ae9c2040800000000000000
-      internalID: 4624245366835465743
+      spriteID: 172107695a7e11eb0800000000000000
+      internalID: -4750761433519615375
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BaseSoils_1
+      name: Cursor_1
       rect:
         serializedVersion: 2
         x: 32
@@ -138,14 +135,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d188f46696506680800000000000000
-      internalID: -8763909670923894312
+      spriteID: 73913f91122b4a1d0800000000000000
+      internalID: -3340349168363038409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BaseSoils_2
+      name: Cursor_2
       rect:
         serializedVersion: 2
         x: 64
@@ -159,29 +156,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f066fc47500862b60800000000000000
-      internalID: 7720999372096235023
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BaseSoils_3
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5e13cb277c57d6490800000000000000
-      internalID: -7751409884150877723
+      spriteID: 43472749096ae8480800000000000000
+      internalID: -8894989074114120652
       vertices: []
       indices: 
       edges: []
