@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public PlayerController playerCon;
     public InteractionController interactionCon;
 
+    public static bool isPause = false; // pause 기본 false 상태
+
 
     void Awake()
     {
