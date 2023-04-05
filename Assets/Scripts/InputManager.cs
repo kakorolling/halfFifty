@@ -21,14 +21,11 @@ public class InputManager : MonoBehaviour
         //내가 화면을 클릭했을 때, 상호작용은 어디까지고 디테일하게 
         if (Input.GetMouseButtonDown(0))
         {
-            //근거리 무기로 공격했을 떄
-            //원거리 무기로 공격했을 때
-            //도구를 사용할 때
+            //action0
         }
         if (Input.GetMouseButtonDown(1))
         {
-            //아이템을 사용할 때
-            //npc와 상호작용 할때
+            //action1
         }
     }
 }
