@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     {
         Vector2Int idx;
         Chunk chunk = null;
-        loadedMap.Add(idx, chunk); //청크의 인덱스값으로 청크를 불러옴
+        //청크의 인덱스값으로 청크를 불러옴 loadedMap.Add(idx, chunk); 
     }
 
     // public (int terrain, List<GameObject> objList, bool collider) GetTileData(Vector2Int worldTileIdx) //좌표값을 받아서 그 좌표의 타일 정보 3가지를 반환
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     {
         GameObject newObj = new GameObject();
         Id id = newObj.AddComponent<Id>();
-        id.value =; //
+        // id.value =; 실행을 위해서 일단 주석처리
 
         MoveObj(newObj, position);
     }
