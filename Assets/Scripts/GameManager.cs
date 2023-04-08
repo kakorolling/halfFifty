@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     public void LoadObj(Vector2Int position, string objData) //모든 오브젝트에는 데이터가 있어야함. 
     {
         GameObject newObj = new GameObject();
-        Id id = newObj.AddComponent<Id>();
+        // Id id = newObj.AddComponent<Id>(); Id 클래스의 이름을 바꿔서 오류 생기는듯
         // id.value =; 실행을 위해서 일단 주석처리
 
         MoveObj(newObj, position);

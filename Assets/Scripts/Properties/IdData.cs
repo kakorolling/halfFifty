@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Id : MonoBehaviour
+[Serializable]
+public class IdData
 {
-
     public int value;
-
-
 }

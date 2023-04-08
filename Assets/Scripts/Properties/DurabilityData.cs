@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Durability : MonoBehaviour
+[Serializable]
+public class DurabilityData
 {
     public int maxValue;
     public int value;
 }
-
