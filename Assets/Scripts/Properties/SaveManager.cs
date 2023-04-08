@@ -2,19 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
-
-[Serializable]
-public class SaveManager
+public class SaveManager : MonoBehaviour
 {
-    public static void Save(string fileName, SaveData data)
+    public static void Save(SaveData saveData, string saveFileName)
     {
-        // data를 fileName으로 저장하는 코드 구현
+        BinaryFormatter formatter = new BinaryFormatter();
+        string savePath = Application.persistentDataPath + "/" + saveFileName + ".sav";
+        FileStream fileStream = new FileStream(savePath, FileMode.Create);
+
+        formatter.Serialize(fileStream, saveData);
+        fileStream.Close();
     }
 
-    public static SaveData Load(string fileName)
+    public static SaveData Load(string saveFileName)
     {
-        // fileName에서 data를 불러오는 코드 구현
-        return null; // 예시 코드이므로 null 반환
+        string savePath = Application.persistentDataPath + "/" + saveFileName + ".sav";
+        if (File.Exists(savePath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream fileStream = new FileStream(savePath, FileMode.Open);
+
+            SaveData saveData = formatter.Deserialize(fileStream) as SaveData;
+            fileStream.Close();
+            return saveData;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + savePath);
+            return null;
+        }
+    }
+
+    public static bool Delete(string saveFileName)
+    {
+        string savePath = Application.persistentDataPath + "/" + saveFileName + ".sav";
+        if (File.Exists(savePath))
+        {
+            File.Delete(savePath);
+            return true;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + savePath);
+            return false;
+        }
     }
 }
