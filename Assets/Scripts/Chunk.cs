@@ -9,6 +9,4 @@ public class Chunk : MonoBehaviour
     public int[,] terrainLayer; // 지형 코드 레이어
     public List<GameObject>[,] objLayer; //오브젝트 레이어
     public bool[,] colliderLayer; //충돌체 감지 레이어
-
-    //
 }

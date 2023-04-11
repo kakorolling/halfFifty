@@ -9,13 +9,15 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+
     public PlayerController playerCon;
     public InteractionController interactionCon;
 
-    public static bool isPause = false; // pause 기본 false 상태
-
-    public readonly Vector2Int chunkSize = new Vector2Int(16, 16); //타일청크의 사이즈는 (16*16)
+    GameData gameData = new GameData(); //게임의 모든 정보(일종의 DB 같은거)
+    public bool isPause = false; // pause 기본 false 상태
+    public readonly Vector2Int chunkSize = new Vector2Int(32, 32); //타일청크의 사이즈는 (32*32)
     public Dictionary<Vector2Int, Chunk> loadedChunkDic; //key: Vector2Int, value: Chunk 불러오기
+    public Dictionary<int, GameObject> loadedObjDic;
 
     void Awake()
     {
@@ -25,41 +27,35 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); //씬 전환이 되더라도 파괴되지 않게 한다.
     }
 
-    public void LoadChunk(string chunkData) //청크를 로드하는 거
-    {
-        Vector2Int idx;
-        Chunk chunk = null;
-        //청크의 인덱스값으로 청크를 불러옴 loadedMap.Add(idx, chunk); 
-    }
 
-    // public (int terrain, List<GameObject> objList, bool collider) GetTileData(Vector2Int worldTileIdx) //좌표값을 받아서 그 좌표의 타일 정보 3가지를 반환
-    // {
-    //     Vector2Int chunkIdx = new Vector2Int(worldTileIdx.x / chunkSize.x, worldTileIdx.y / chunkSize.y); //청크 좌표값 구하기
-    //     Chunk chunk = loadedMap[chunkIdx];
-    //     Vector2Int chunkTileIdx = new Vector2Int(worldTileIdx.x % chunkSize.x, worldTileIdx.y % chunkSize.y); //한 청크 기준 타일 좌표값 구하기
-    //     int terrain = chunk.terrainLayer[chunkTileIdx.x, chunkTileIdx.y]; //한 청크안의 좌표의 지형 값을 불러오기
-    //     List<GameObject> objList = chunk.objLayer[chunkTileIdx.x, chunkTileIdx.y]; //한 청크안의 좌표의 오브젝트 리스트를 불러오기
-    //     bool collider = chunk.colliderLayer[chunkTileIdx.x, chunkTileIdx.y]; //한 청크안의 좌표의 충돌 여부 불러오기
-    //     return (terrain, objList, collider);
-    // }
-
-    public GameObject LoadObj(string json) //모든 오브젝트에는 데이터가 있어야함. 
+    public void LoadChunk(Vector2Int idx) //청크를 로드하는 거 -> 
     {
-        GameObject obj = new GameObject();
-        ObjData data = JsonUtility.FromJson<ObjData>(json);
-        for (int i = 0; i < data.propertyNameArr.Length; i++)
+        Chunk chunk = new Chunk();
+        chunk.idx = idx;
+        Vector2Int offset = idx * chunkSize;
+        for (int x = 0; x < chunkSize.x; x++)
         {
-            Property property = obj.AddComponent(Type.GetType(data.propertyNameArr[i])) as Property;
-            property.SetData(data.propertyDataArr[i]);
+            for (int y = 0; y < chunkSize.y; y++)
+            {
+                chunk.terrainLayer[x, y] = gameData.terrainLayer[x + offset.x, y + offset.y];
+                chunk.objLayer[x, y] = gameData.objLayer[x + offset.x, y + offset.y].Select(id =>
+                {
+                    if (loadedObjDic[id] == null)
+                    {
+                        GameObject loadedObj = LoadObj(gameData.objDic[id]);
+                        loadedObjDic.Add(id, loadedObj);
+                    }
+                    return loadedObjDic[id];
+                })
+                .ToList();
+                chunk.colliderLayer[x, y] = gameData.colliderLayer[x + offset.x, y + offset.y];
+            }
         }
-        return obj;
     }
 
     public string SaveObj(GameObject obj)
     {
-
         ObjData data = new ObjData();
-
         Property[] propertyArr = obj.GetComponents<Property>();
         data.propertyNameArr = new string[propertyArr.Length];
         data.propertyDataArr = new string[propertyArr.Length];
@@ -73,12 +69,34 @@ public class GameManager : MonoBehaviour
         return json;
     }
 
+    public GameObject LoadObj(string json) //모든 오브젝트에는 데이터가 있어야함. 
+    {
+        GameObject obj = new GameObject();
+        ObjData data = JsonUtility.FromJson<ObjData>(json);
+        for (int i = 0; i < data.propertyNameArr.Length; i++)
+        {
+            Property property = obj.AddComponent(Type.GetType(data.propertyNameArr[i])) as Property;
+            property.SetData(data.propertyDataArr[i]);
+        }
+        return obj;
+    }
 
     public bool MoveObj(GameObject obj, Vector2Int position) // 실제 격자공간에 오브젝트를 넣음, 그에 맞게 GameScene의 위치도 바꿈
     {
         return new bool();
     }
 
+}
+
+public class GameData
+{
+    //map data
+    public int[,] terrainLayer = new int[1024, 1024]; // 지형 코드 레이어
+    public List<int>[,] objLayer = new List<int>[1024, 1024]; //오브젝트 레이어
+    public bool[,] colliderLayer = new bool[1024, 1024]; //충돌체 감지 레이어
+
+    //object data
+    public Dictionary<int, string> objDic = new Dictionary<int, string>();
 }
 
 public class ObjData
