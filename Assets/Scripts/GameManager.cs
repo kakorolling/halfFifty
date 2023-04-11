@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using System.Reflection;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +15,7 @@ public class GameManager : MonoBehaviour
     public static bool isPause = false; // pause 기본 false 상태
 
     public readonly Vector2Int chunkSize = new Vector2Int(16, 16); //타일청크의 사이즈는 (16*16)
-    public Dictionary<Vector2Int, Chunk> loadedMap; //key: Vector2Int, value: Chunk 불러오기
+    public Dictionary<Vector2Int, Chunk> loadedChunkDic; //key: Vector2Int, value: Chunk 불러오기
 
     void Awake()
     {
@@ -39,13 +43,34 @@ public class GameManager : MonoBehaviour
     //     return (terrain, objList, collider);
     // }
 
-    public void LoadObj(Vector2Int position, string objData) //모든 오브젝트에는 데이터가 있어야함. 
+    public GameObject LoadObj(string json) //모든 오브젝트에는 데이터가 있어야함. 
     {
-        GameObject newObj = new GameObject();
-        // Id id = newObj.AddComponent<Id>(); Id 클래스의 이름을 바꿔서 오류 생기는듯
-        // id.value =; 실행을 위해서 일단 주석처리
+        GameObject obj = new GameObject();
+        ObjData data = JsonUtility.FromJson<ObjData>(json);
+        for (int i = 0; i < data.propertyNameArr.Length; i++)
+        {
+            Property property = obj.AddComponent(Type.GetType(data.propertyNameArr[i])) as Property;
+            property.SetData(data.propertyDataArr[i]);
+        }
+        return obj;
+    }
 
-        MoveObj(newObj, position);
+    public string SaveObj(GameObject obj)
+    {
+
+        ObjData data = new ObjData();
+
+        Property[] propertyArr = obj.GetComponents<Property>();
+        data.propertyNameArr = new string[propertyArr.Length];
+        data.propertyDataArr = new string[propertyArr.Length];
+
+        for (int i = 0; i < propertyArr.Length; i++)
+        {
+            data.propertyNameArr[i] = propertyArr[i].GetType().Name;
+            data.propertyDataArr[i] = propertyArr[i].GetData();
+        }
+        string json = JsonUtility.ToJson(data);
+        return json;
     }
 
 
@@ -56,3 +81,8 @@ public class GameManager : MonoBehaviour
 
 }
 
+public class ObjData
+{
+    public string[] propertyNameArr; //프로퍼티들의 이름들 나열
+    public string[] propertyDataArr; //프로퍼티들의 데이터 나열
+}
