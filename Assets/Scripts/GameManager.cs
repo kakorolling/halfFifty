@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public InteractionController interactionCon;
 
     GameData gameData = new GameData(); //게임의 모든 정보(일종의 DB 같은거)
-    public bool isPause = false; // pause 기본 false 상태
+    public static bool isPause = false; // pause 기본 false 상태
     public readonly Vector2Int chunkSize = new Vector2Int(32, 32); //타일청크의 사이즈는 (32*32)
     public Dictionary<Vector2Int, Chunk> loadedChunkDic; //key: Vector2Int, value: Chunk 불러오기
     public Dictionary<int, GameObject> loadedObjDic;
