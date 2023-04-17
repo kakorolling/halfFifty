@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Reflection;
 using System.Linq;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,8 +16,8 @@ public class GameManager : MonoBehaviour
 
     GameData gameData; //게임의 모든 정보(일종의 DB 같은거)
     public static bool isPaused; // pause 기본 false 상태
-    public Dictionary<Vector2Int, Chunk> loadedChunkDic; //key: Vector2Int, value: Chunk 불러오기
-    public Dictionary<int, GameObject> loadedObjDic;
+    public Dictionary<Vector2Int, Chunk> chunkDic; //key: Vector2Int, value: Chunk 불러오기
+    public Dictionary<int, GameObject> objDic;
     public Dictionary<int, TileBase> terrainDic;
 
     void Awake()
@@ -31,8 +32,8 @@ public class GameManager : MonoBehaviour
     {
         gameData = new GameData();
         isPaused = false;
-        loadedChunkDic = new Dictionary<Vector2Int, Chunk>();
-        loadedObjDic = new Dictionary<int, GameObject>();
+        chunkDic = new Dictionary<Vector2Int, Chunk>();
+        objDic = new Dictionary<int, GameObject>();
         terrainDic = new Dictionary<int, TileBase>();
         TileBase[] tiles = Resources.LoadAll<TileBase>("Tiles");
         for (int i = 0; i < tiles.Length; i++)
@@ -41,12 +42,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    public void LoadChunk(Vector2Int idx) //청크를 로드하는 거 -> GameData에서 동기화
+    private void UpdateChunk(Chunk chunk)
     {
-        Chunk chunk = Instantiate(chunkPf).GetComponent<Chunk>();
-        chunk.idx = idx;
-        Vector2Int offset = idx * chunkSize;
+        Vector2Int offset = chunk.idx * chunkSize;
         for (int x = 0; x < chunkSize.x; x++)
         {
             for (int y = 0; y < chunkSize.y; y++)
@@ -55,6 +53,23 @@ public class GameManager : MonoBehaviour
                 chunk.objLayer[x, y] = gameData.objLayer[x + offset.x, y + offset.y];
                 chunk.colliderLayer[x, y] = gameData.colliderLayer[x + offset.x, y + offset.y];
             }
+        }
+        chunk.UpdateTileMap();
+    }
+
+    public void LoadChunk(Vector2Int idx) //청크를 로드하는 거 -> GameData에서 동기화
+    {
+        Chunk chunk = Instantiate(chunkPf).GetComponent<Chunk>();
+        chunk.idx = idx;
+        UpdateChunk(chunk);
+    }
+
+    private void UpdateAllChunk()
+    {
+        List<Chunk> chunkList = chunkDic.Values.ToList();
+        for (int i = 0; i < chunkList.Count; i++)
+        {
+            UpdateChunk(chunkList[i]);
         }
     }
 
@@ -84,7 +99,33 @@ public class GameManager : MonoBehaviour
             property.SetData(data.propertyDataArr[i]);
         }
         Common common = obj.GetComponent<Common>();
-        loadedObjDic.Add(common.id, obj);
+        objDic.Add(common.id, obj);
+    }
+
+    public void SaveGame(string saveFileName)
+    {
+        string path = $"{Application.persistentDataPath}/{saveFileName}.sav";
+        System.IO.File.WriteAllText(path, JsonUtility.ToJson(gameData));
+    }
+    public void LoadGame(string saveFileName)
+    {
+        string path = $"{Application.persistentDataPath}/{saveFileName}.sav";
+        if (!File.Exists(path)) Debug.LogError("Save file not found in " + path);
+        string json = System.IO.File.ReadAllText(path);
+        gameData = JsonUtility.FromJson<GameData>(json);
+    }
+    public List<string> GetSaveFileNameList() //이름 목록만 가져옴
+    {
+        List<string> saveFileNameList =
+        Directory.GetFiles(Application.persistentDataPath, "*.sav")
+        .Select(e => Path.GetFileName(e))
+        .ToList();
+        return saveFileNameList;
+    }
+
+    public void SetTerrain(Vector2Int coord, int terrain) //지형값을 바꿔야함->바꿀좌표, 뭐로바꿀지
+    {
+        gameData.terrainLayer[coord.x, coord.y] = terrain; //이거의 int값
     }
 }
 
@@ -97,7 +138,6 @@ public class GameData
     //object data
     public Dictionary<int, string> objDic = new Dictionary<int, string>();
 }
-
 public class ObjData
 {
     public string[] propertyNameArr; //프로퍼티들의 이름들 나열
