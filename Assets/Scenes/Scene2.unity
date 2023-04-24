@@ -4848,7 +4848,7 @@ GameObject:
   - component: {fileID: 1713500276}
   - component: {fileID: 1713500275}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: CraftingTableDirector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
