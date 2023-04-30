@@ -1,0 +1,45 @@
+스태미너 hp -> 
+레벨 , 허기, 경험치->정확한 수치를 보려면 상태창을 열자
+허기가 일정퍼센트 이하로 줄면 상태이상이 떠서 유저에게 알림
+
+
+RuleTile 추가 (AutoTile)
+
+InputManager 작성
+->strategy패턴으로, 입력받는 주체를 하나로 한정하도록 작성
+
+Map 클래스 작성
+->지금은 월드맵 하나뿐이지만, 건물은 별도의 맵을 가짐
+
+MapEditor 기능추가(오로지 개발자)
+->선, 사각형
+->선택영역, 채우기, 스포이드 -> (양방향Dictionary 필요)
+->오브젝트 배치
+
+Property 작성
+->Common, Durability, Collider,
+
+interaction ui
+->마크식으로 한쪽에는 상호작용주체, 반대쪽에는 인벤토리
+
+
+드롭아이템 Durability Item
+건축물 Durability Collider
+문 Durability Collider Interactable Drop
+플레이어 Durability Collider Ego Interactable Drop
+몬스터 Durability Collider Ego Interactable(?) Drop
+상자 Durability Collider Item Interactable Drop
+npc Durability Collider Ego Interactable Drop
+작업대 Durability Collider Interactable Drop
+횃불 Durability Item Drop
+무기 Durability Item Drop
+음식 Durability Item Drop
+파이어볼 
+
+Item->무게, 사용효과와같은 정보가 있음
+Ego-> 상태창, 인벤토리를 가짐
+
+- 농기구의 item property에 있는 상호작용 기능을 사용하여 grassland→farmland로 지형편집
+- 씨앗오브젝트를  farmland에 설치. 씨앗 오브젝트에는 성장과 관련된 property가 있음.
+- 틱의 진행에 따라 씨앗에서 수확 가능한 식물로 성장
+- 식물 오브젝트의 이 되게  열매 아이템 휙득가능

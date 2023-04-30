@@ -13,16 +13,18 @@ public class Chunk : MonoBehaviour
     public bool[,] colliderLayer; //충돌체 감지 레이어
     Tilemap tilemap;
 
-    void Start()
+    void Awake()
     {
+        terrainLayer = new int[GameManager.chunkSize.x, GameManager.chunkSize.y];
+        objLayer = new List<int>[GameManager.chunkSize.x, GameManager.chunkSize.y];
+        colliderLayer = new bool[GameManager.chunkSize.x, GameManager.chunkSize.y];
         tilemap = GetComponent<Tilemap>();
     }
     public void UpdateTileMap() //타일맵 업데이트
     {
-        Vector2Int chunkSize = GameManager.instance.chunkSize;
-        for (int x = 0; x < chunkSize.x; x++)
+        for (int x = 0; x < GameManager.chunkSize.x; x++)
         {
-            for (int y = 0; y < chunkSize.y; y++)
+            for (int y = 0; y < GameManager.chunkSize.y; y++)
             {
                 int terrain = terrainLayer[x, y];
                 TileBase tile = GameManager.instance.terrainDic[terrain];

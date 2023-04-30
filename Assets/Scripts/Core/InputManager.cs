@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 //입력을 관리하는 클래스
 public class InputManager : MonoBehaviour
@@ -14,7 +15,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) delta.x--;
         if (Input.GetKey(KeyCode.S)) delta.y--;
         if (Input.GetKey(KeyCode.D)) delta.x++;
-        GameManager.instance.playerCon.Move(delta, Input.GetKey(KeyCode.LeftShift));
+        //GameManager.instance.playerCon.Move(delta, Input.GetKey(KeyCode.LeftShift));
 
         //퀵슬롯은 휠과 1~8까지
 

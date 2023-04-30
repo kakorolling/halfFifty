@@ -5,23 +5,30 @@ using System;
 
 public class Collider : Property
 {
-    public Vector2Int[] points;
-
-    public override string GetData()
-    {
-        Data data = new Data();
-        data.points = points;
-        string json = JsonUtility.ToJson(data);
-        return json;
-    }
-    public override void SetData(string json)
-    {
-        Data data = JsonUtility.FromJson<Data>(json);
-        points = data.points;
-    }
-    public struct Data
+    struct Data
     {
         public Vector2Int[] points;
+    }
+    Data data;
+    public Vector2Int[] points;
+
+    public override string GetData() { return JsonUtility.ToJson(data); }
+    public override void SetData(string json) { data = JsonUtility.FromJson<Data>(json); }
+
+    public Action onCollisionEnter;
+    public Action onCollisionStay;
+    public Action onCollisionExit;
+    void OnCollisionEnter()
+    {
+        if (onCollisionEnter != null) onCollisionEnter.Invoke();
+    }
+    void OnCollisionStay()
+    {
+        if (onCollisionStay != null) onCollisionStay.Invoke();
+    }
+    void OnCollisionExit()
+    {
+        if (onCollisionExit != null) onCollisionExit.Invoke();
     }
 }
 
