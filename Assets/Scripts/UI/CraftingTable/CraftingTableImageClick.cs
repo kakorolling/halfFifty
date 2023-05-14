@@ -11,8 +11,8 @@ public class CraftingTableImageClick : MonoBehaviour, IPointerClickHandler
     GameObject clickedObject;
     Dictionary<string, string[]> dic = new Dictionary<string, string[]>()
     {
-        {"나무 삽", new string[]{"짱센 나무 삽임", "진짜임1"}},
-        {"나무 칼", new string[]{"짱센 나무 칼임", ""}},
+        {"나무 삽", new string[]{"땅을 팔 수 있는 나무 삽입니다.", "두번째 텍스트 입니다."}},
+        {"나무 칼", new string[]{"공격할 수 있는 나무 칼입니다.", "두번째 텍스트 입니다."}},
         
     };
 
