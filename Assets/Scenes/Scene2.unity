@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 450403892}
   - component: {fileID: 450403891}
   - component: {fileID: 450403890}
+  - component: {fileID: 450403893}
   m_Layer: 5
   m_Name: CraftConfirmButton
   m_TagString: Untagged
@@ -592,7 +593,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 450403891}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 450403893}
+        m_TargetAssemblyTypeName: CraftingTableConfirmManager, Assembly-CSharp
+        m_MethodName: ConfirmButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &450403891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,6 +644,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 450403888}
   m_CullTransparentMesh: 1
+--- !u!114 &450403893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450403888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e01057910b115b4391eb5d2490d68cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DetailImage: {fileID: 0}
+  itemName: 
+  itemIngredientname: []
 --- !u!1 &480303565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,7 +1923,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB9CC\uB4E4\uAE30"
+  m_Text: "\uC81C\uC791\uD558\uAE30"
 --- !u!222 &846530896
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2366,6 +2394,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DetailImage: {fileID: 1091571913}
+  itemName: 
+  itemIngredientname: []
 --- !u!1 &1063441859
 GameObject:
   m_ObjectHideFlags: 0
@@ -2694,7 +2724,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1091571914
 RectTransform:
   m_ObjectHideFlags: 0

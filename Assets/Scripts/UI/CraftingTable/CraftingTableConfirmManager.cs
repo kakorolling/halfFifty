@@ -5,11 +5,29 @@ using UnityEngine.UI;
 
 public class CraftingTableConfirmManager : MonoBehaviour
 {
+    // 제작 취소 버튼 로직에 사용
     GameObject Scroll;
     string DetailExpression1;
     string ScrollType;
     public GameObject DetailImage;
+
+    // 제작 버튼 로직에 사용
+    InventoryManager inventoryManager = new InventoryManager();
+    public string itemName;
+    public string[] itemIngredientname;
+
+   
+    public void ConfirmButtonClick()
+    {
+        itemName = GameObject.Find("DetailName").GetComponent<Text>().text;
+        Debug.Log(itemName);
+
+        inventoryManager.AddItem(itemName, 1);
     
+    }
+   
+
+
     //제작 취소 기능
     public void CancelButtonClick()
     {
