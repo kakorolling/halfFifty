@@ -10,6 +10,7 @@ public class CraftingTableDetailImageScript : MonoBehaviour
     public GameObject DetailNameTextObject;
     public GameObject DetailExpressionTextObject1;
     public GameObject DetailExpressionTextObject2;
+    public GameObject DetailIconImageObject;
 
     public void SetText(string DetailNameText, string[] DetailExpressionText)
     {
@@ -18,5 +19,13 @@ public class CraftingTableDetailImageScript : MonoBehaviour
         DetailExpressionTextObject1.GetComponent<Text>().text = DetailExpressionText[0];
         DetailExpressionTextObject2.GetComponent<Text>().text = DetailExpressionText[1];
     }
+
+    
+    public void SetImage(Image DetailIconImage)
+    {
+        Image detailIconImageComponent = DetailIconImageObject.GetComponent<Image>();
+        detailIconImageComponent.sprite = DetailIconImage.sprite;
+    }
+    
 
 }

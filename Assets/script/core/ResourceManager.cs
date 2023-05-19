@@ -13,9 +13,11 @@ public class ResourceManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites");
+        spriteDic = new Dictionary<string, Sprite>();
+        Sprite[] sprites = Resources.LoadAll<Sprite>("sprite");
         foreach (Sprite sprite in sprites)
         {
+            Debug.Log(sprite.name);
             spriteDic.Add(sprite.name, sprite);
         }
     }

@@ -10,19 +10,21 @@ public class CraftingTableConfirmManager : MonoBehaviour
     string DetailExpression1;
     string ScrollType;
     public GameObject DetailImage;
+    public GameObject ConfirmImage;
 
     // 제작 버튼 로직에 사용
     InventoryManager inventoryManager = new InventoryManager();
     public string itemName;
     public string[] itemIngredientname;
 
-   
+    //제작하기 기능
     public void ConfirmButtonClick()
     {
         itemName = GameObject.Find("DetailName").GetComponent<Text>().text;
         Debug.Log(itemName);
 
-        inventoryManager.AddItem(itemName, 1);
+        inventoryManager.AddItem(itemName, "1");
+        ConfirmImage.SetActive(true);
     
     }
    

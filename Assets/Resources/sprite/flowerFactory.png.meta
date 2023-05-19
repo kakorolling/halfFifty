@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 875996511fe76be4c913e872d2f7df95
+guid: bf0c313dc6ed842f1965ea9d63db18cb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8113185096396602001
-    second: Tomato_0
+      213: -7477688856855091839
+    second: flowerFactory_0
   - first:
-      213: -1257518098505440576
-    second: Tomato_1
+      213: 3447052454767893614
+    second: flowerFactory_1
   - first:
-      213: 3336444044123149764
-    second: Tomato_2
+      213: -5853416608995844363
+    second: flowerFactory_2
   - first:
-      213: -6966369517673316951
-    second: Tomato_3
+      213: -8578016720311979152
+    second: flowerFactory_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -44,7 +44,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -80,7 +80,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -92,7 +92,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -103,7 +103,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tomato_0
+      name: flowerFactory_0
       rect:
         serializedVersion: 2
         x: 0
@@ -117,14 +117,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f65894ce32d286f80800000000000000
-      internalID: -8113185096396602001
+      spriteID: 185614a6a99e93890800000000000000
+      internalID: -7477688856855091839
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tomato_1
+      name: flowerFactory_1
       rect:
         serializedVersion: 2
         x: 32
@@ -138,14 +138,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c265f7b3f56c8ee0800000000000000
-      internalID: -1257518098505440576
+      spriteID: e6c1490c1f366df20800000000000000
+      internalID: 3447052454767893614
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tomato_2
+      name: flowerFactory_2
       rect:
         serializedVersion: 2
         x: 64
@@ -159,14 +159,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c59dee4e2e6d4e20800000000000000
-      internalID: 3336444044123149764
+      spriteID: 5fe5e6a5b9c74cea0800000000000000
+      internalID: -5853416608995844363
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tomato_3
+      name: flowerFactory_3
       rect:
         serializedVersion: 2
         x: 96
@@ -180,8 +180,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9adf8f445db725f90800000000000000
-      internalID: -6966369517673316951
+      spriteID: 073717cbd33c4f880800000000000000
+      internalID: -8578016720311979152
       vertices: []
       indices: 
       edges: []

@@ -24,6 +24,7 @@ public class CraftingTableImageClick : MonoBehaviour, IPointerClickHandler
         Debug.Log("Clicked object: " + clickedObject.transform.GetChild(1).GetComponent<Text>().text);
         CraftingTableDetailImageScript DetailScript = DetailImage.GetComponent<CraftingTableDetailImageScript>();
         DetailScript.SetText(clickedObject.transform.GetChild(1).GetComponent<Text>().text, dic[clickedObject.transform.GetChild(1).GetComponent<Text>().text]);
+        DetailScript.SetImage(clickedObject.transform.GetChild(0).GetComponent<Image>());
     }
 
     public void OnClickImage()

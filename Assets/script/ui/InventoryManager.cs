@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class InventoryManager
 {
-    // 인벤토리 아이템과 수량을 저장하는 딕셔너리
-    public Dictionary<string, int> inventoryItems; 
+    // 인벤토리의 아이템과 수량을 저장하는 딕셔너리
+    public Dictionary<string, string> inventoryItems; 
 
     public InventoryManager()
     {
-        inventoryItems = new Dictionary<string, int>();
+        inventoryItems = new Dictionary<string, string>();
     }
 
-    public void AddItem(string itemName, int amount)
+    public void AddItem(string itemName, string amount)
     {
         if (inventoryItems.ContainsKey(itemName))
         {
@@ -26,4 +26,6 @@ public class InventoryManager
         Debug.Log(amount + "개의 " + itemName + "이(가) 인벤토리에 추가되었습니다.");
         //Debug.Log(inventoryItems[itemName]);
     }
+
+    
 }
