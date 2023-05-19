@@ -39,10 +39,10 @@ public class GameManager : MonoBehaviour
         {
             terrainDic.Add(Int32.Parse(tile.name), tile);
         }
-        //  CreateDummyGameData();
+        //CreateDummyGameData();
         LoadGame("temp");
->>>>>>> 43121d4fc687a65247d4260945f79c808312788e:Assets/script/core/GameManager.cs
     }
+    
 
     void OnApplicationQuit()
     {
