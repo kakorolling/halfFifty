@@ -34,12 +34,12 @@ public class GameManager : MonoBehaviour
         chunkDic = new Dictionary<Vector2Int, Chunk>();
         objDic = new Dictionary<int, GameObject>();
         terrainDic = new Dictionary<int, RuleTile>();
-        RuleTile[] tiles = Resources.LoadAll<RuleTile>("Tiles");
+        RuleTile[] tiles = Resources.LoadAll<RuleTile>("tile");
         foreach (RuleTile tile in tiles)
         {
             terrainDic.Add(Int32.Parse(tile.name), tile);
         }
-        //  CreateDummyGameData();
+        //CreateDummyGameData();
         LoadGame("temp");
     }
 
@@ -64,6 +64,16 @@ public class GameManager : MonoBehaviour
                 gameData.colliderLayer[x][y] = false;
             }
         }
+
+        GameObject testObj = new GameObject();
+        testObj.name = "flowerFactory";
+        Common common = testObj.AddComponent<Common>();
+        Graphic graphic = testObj.AddComponent<Graphic>();
+        common.SetData("{\"id\":0,\"center\":{\"x\":0,\"y\":0},\"vertices\":[]}");
+        graphic.SetData("{\"spriteId\":\"flowerFactory_3\"}");
+        string testObjJson = SaveObj(testObj);
+        Debug.Log(testObjJson);
+        gameData.objDic.Add(0, testObjJson);
     }
 
     private void UpdateChunk(Chunk chunk)
@@ -109,17 +119,17 @@ public class GameManager : MonoBehaviour
 
     public string SaveObj(GameObject obj)
     {
-        ObjData data = new ObjData();
+        ObjData objData = new ObjData();
         Property[] propertyArr = obj.GetComponents<Property>();
-        data.propertyNameArr = new string[propertyArr.Length];
-        data.propertyDataArr = new string[propertyArr.Length];
+        objData.propertyNameArr = new string[propertyArr.Length];
+        objData.propertyDataArr = new string[propertyArr.Length];
 
         for (int i = 0; i < propertyArr.Length; i++)
         {
-            data.propertyNameArr[i] = propertyArr[i].GetType().Name;
-            data.propertyDataArr[i] = propertyArr[i].GetData();
+            objData.propertyNameArr[i] = propertyArr[i].GetType().Name;
+            objData.propertyDataArr[i] = propertyArr[i].GetData();
         }
-        string json = JsonSerializer.Serialize(data);
+        string json = JsonSerializer.Serialize(objData);
         return json;
     }
 
@@ -133,21 +143,36 @@ public class GameManager : MonoBehaviour
             property.SetData(data.propertyDataArr[i]);
         }
         Common common = obj.GetComponent<Common>();
-        objDic.Add(common.id, obj);
     }
 
-    public void SaveGame(string saveFileName)
+    public bool SaveGame(string saveFileName)
     {
+        if(gameData==null){
+            Debug.LogError("There is no game data");
+            return false;
+        }
         string path = $"{Application.persistentDataPath}/{saveFileName}.save";
         System.IO.File.WriteAllText(path, JsonSerializer.Serialize(gameData));
         Debug.LogWarning("Saved as" + path);
+        return true;
     }
-    public void LoadGame(string saveFileName)
+    public bool LoadGame(string saveFileName)
     {
         string path = $"{Application.persistentDataPath}/{saveFileName}.save";
-        if (!File.Exists(path)) Debug.LogError("Save file not found in " + path);
+        if (!File.Exists(path)) {
+            Debug.LogError("Save file not found in " + path);
+            return false;
+        }
         string json = System.IO.File.ReadAllText(path);
         gameData = JsonSerializer.Deserialize<GameData>(json);
+        if(gameData==null) {
+            Debug.LogError("Save file is invalid");
+            return false;
+        }
+        foreach(KeyValuePair<int, string> item in gameData.objDic){
+                LoadObj(item.Value);
+        }
+        return true;
     }
     public List<string> GetSaveFileNameList() //이름 목록만 가져옴
     {
@@ -182,10 +207,10 @@ public class GameData
     public List<int>[][] objLayer { get; set; } //오브젝트 레이어
     public bool[][] colliderLayer { get; set; } //충돌체 감지 레이어
     //object data
-    public Dictionary<int, string> objDic { get; set; }
+    public Dictionary<int, string> objDic { get; set; } //key: obj id value: obj json
 }
 public class ObjData
 {
-    public string[] propertyNameArr; //프로퍼티들의 이름들 나열
-    public string[] propertyDataArr; //프로퍼티들의 데이터 나열
+    public string[] propertyNameArr{ get; set; } //프로퍼티들의 이름들 나열
+    public string[] propertyDataArr{ get; set; } //프로퍼티들의 데이터 나열
 }
