@@ -27,5 +27,12 @@ public class InventoryManager
         //Debug.Log(inventoryItems[itemName]);
     }
 
+    /*
+    public void DeleteItem()
+    {
+
+    }
+    */
+
     
 }
