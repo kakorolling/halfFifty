@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+//테스트용 코드
+using UnityEngine.SceneManagement;
 
 public class CraftingTableConfirmManager : MonoBehaviour
 {
@@ -13,18 +15,20 @@ public class CraftingTableConfirmManager : MonoBehaviour
     public GameObject ConfirmImage;
 
     // 제작 버튼 로직에 사용
-    InventoryManager inventoryManager = new InventoryManager();
     public string itemName;
+    public Image itemImage;
     public string[] itemIngredientname;
 
     //제작하기 기능
     public void ConfirmButtonClick()
     {
         itemName = GameObject.Find("DetailName").GetComponent<Text>().text;
+        itemImage = GameObject.Find("DetailIconImage").GetComponent<Image>();
         Debug.Log(itemName);
 
-        inventoryManager.AddItem(itemName, "1");
+        InventoryManager.AddItem(new Item(itemName, 1, itemImage.sprite.name));
         ConfirmImage.SetActive(true);
+        SceneManager.LoadScene("Scene4");
     
     }
    
