@@ -23,12 +23,14 @@ public class CraftingTableImageClick : MonoBehaviour, IPointerClickHandler
         this.clickedObject = eventData.pointerPress;
         Debug.Log("Clicked object: " + clickedObject.name);
         Debug.Log("Clicked object: " + clickedObject.transform.GetChild(1).GetComponent<Text>().text);
-        
+
         CraftingTableDetailImageScript DetailScript = DetailImage.GetComponent<CraftingTableDetailImageScript>();
         DetailScript.SetText(clickedObject.transform.GetChild(1).GetComponent<Text>().text, dic[clickedObject.transform.GetChild(1).GetComponent<Text>().text]);
         DetailScript.SetImage(clickedObject.transform.GetChild(0).GetComponent<Image>(), clickedObject.transform.GetChild(2).GetComponent<Image>(),
                             clickedObject.transform.GetChild(3).GetComponent<Image>(), clickedObject.transform.GetChild(4).GetComponent<Image>(),
                             clickedObject.transform.GetChild(5).GetComponent<Image>());
+        DetailScript.SetAmount(clickedObject.transform.GetChild(6).GetComponent<Text>().text, clickedObject.transform.GetChild(7).GetComponent<Text>().text,
+                                clickedObject.transform.GetChild(8).GetComponent<Text>().text, clickedObject.transform.GetChild(9).GetComponent<Text>().text);
     }
 
     public void OnClickImage()

@@ -20,10 +20,13 @@ public class CraftingTableDetailImageScript : MonoBehaviour
     public GameObject DetailIngredientIconImageObject4;
 
     //아이템 수량 변수
+    public GameObject DetailIngredientAmountObject1;
+    public GameObject DetailIngredientAmountObject2;
+    public GameObject DetailIngredientAmountObject3;
+    public GameObject DetailIngredientAmountObject4;
 
 
-
-
+    // 아이템 이름, 세부 설명 설정 메소드
     public void SetText(string DetailNameText, string[] DetailExpressionText)
     {
         
@@ -32,7 +35,7 @@ public class CraftingTableDetailImageScript : MonoBehaviour
         DetailExpressionTextObject2.GetComponent<Text>().text = DetailExpressionText[1];
     }
 
-    
+    // 아이템 이미지, 재료 아이템 이미지 설정 메소드
     public void SetImage(Image DetailIconImage, Image DetailIngredientIconImage1,
                          Image DetailIngredientIconImage2, Image DetailIngredientIconImage3, Image DetailIngredientIconImage4)
     {
@@ -49,8 +52,13 @@ public class CraftingTableDetailImageScript : MonoBehaviour
         detailIngredientIconImageComponent4.sprite = DetailIngredientIconImage4.sprite;
     }
 
-    public void SetAmount()
+    // 재료 아이템 수량 설정 메소드
+    public void SetAmount(string DetailIngredientAmount1, string DetailIngredientAmount2, string DetailIngredientAmount3, string DetailIngredientAmount4)
     {
+        DetailIngredientAmountObject1.GetComponent<Text>().text = DetailIngredientAmount1;
+        DetailIngredientAmountObject2.GetComponent<Text>().text = DetailIngredientAmount2;
+        DetailIngredientAmountObject3.GetComponent<Text>().text = DetailIngredientAmount3;
+        DetailIngredientAmountObject4.GetComponent<Text>().text = DetailIngredientAmount4;
 
     }
     
