@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class InventoryManager
 {
+    // 인벤토리 슬롯들의 배열
     public GameObject[] slots;
 
     // 인벤토리에 보일 아이템의 배열
@@ -100,13 +101,16 @@ public class InventoryManager
                 continue;
             }
 
+            // 변수에 inventoryItems배열에 있는 아이템들의 정보를 할당
             string itemName = inventoryItems[i].GetName();
             int itemAmount = inventoryItems[i].GetAmount();
             string itemImage = inventoryItems[i].GetImageName();
 
+            // 할당된 정보로 슬롯의 이미지 설정
             Image slotImage = slots[i].transform.GetChild(0).GetComponent<Image>();
             slotImage.sprite = Resources.Load<Sprite>("UIImage/CommonUIImage/" + itemImage);
 
+            // 할당된 정보로 슬롯의 갯수 텍스트 설정
             Text slotText =  slots[i].transform.GetChild(1).GetComponent<Text>();
             slotText.text = itemAmount.ToString();
             Debug.Log(slotText.text);

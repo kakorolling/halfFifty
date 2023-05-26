@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+// 할당된 키로 인벤토리 열고 닫기
+public class InventoryOpenAndClose : MonoBehaviour
 {
     public GameObject inventoryPanel;
     bool activelInventory = false;
@@ -20,7 +21,5 @@ public class InventoryUI : MonoBehaviour
             inventoryManager.ShowItem();
 
         }
-    
-  
     }
 }

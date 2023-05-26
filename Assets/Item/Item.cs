@@ -13,6 +13,9 @@ public class Item
     //아이템의 이미지의 이름(이미지를 보이게 할때 필요)
     private string imageName;
 
+    //아이템이 인벤토리의 몇번째 슬롯에 있는지 나타내는 숫자
+    private int slotnumber;
+
     //이외에도 내구도와 같은 프로퍼티를 여기에 추가로 생성가능
 
     //생성자 (아이템을 new로 생성할때 new Item(itemName, 1, itemImage.sprite.name) 이런식으로 생성 가능)
@@ -55,4 +58,16 @@ public class Item
     {
         imageName = newImageName;
     }
+
+    //아이템의 이미지의 이름 가져올때 사용
+    public int GetSlotNumber()
+    {
+        return slotnumber;
+    }
+    //아이템의 이미지의 이름 지정할때 사용
+    public void SetSlotNumber(int newSlotNumber)
+    {
+        slotnumber = newSlotNumber;
+    }
+
 }
