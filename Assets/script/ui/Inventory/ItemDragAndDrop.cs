@@ -24,13 +24,11 @@ public class ItemDragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
         originalPosition = transform.position;
 
         // Move the item to the top of the sibling hierarchy
-        transform.SetAsLastSibling();
+        //transform.SetAsLastSibling();
 
         // Disable raycasting on the image during drag
         image.raycastTarget = false;
 
-        // Store the original text
-        //originalText = text.text;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -62,7 +60,7 @@ public class ItemDragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
 
         // Restore the parent and sibling index
         transform.SetParent(originalParent);
-        transform.SetSiblingIndex(siblingIndex);
+        //transform.SetSiblingIndex(siblingIndex);
 
         // Enable raycasting on the image after drag
         image.raycastTarget = true;
@@ -72,18 +70,17 @@ public class ItemDragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     {
         // Store the original image and text values
         originalImage = image;
-        //originalText = text.text;
 
         // Get the Canvas component of the parent
         canvas = GetComponentInParent<Canvas>();
 
         // Store the initial sibling index
-        siblingIndex = transform.GetSiblingIndex();
+        //siblingIndex = transform.GetSiblingIndex();
     }
 
     private void OnEnable()
     {
         // Move the item to the top of the sibling hierarchy when enabled
-        transform.SetAsLastSibling();
+        //transform.SetAsLastSibling();
     }
 }

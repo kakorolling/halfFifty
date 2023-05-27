@@ -11,6 +11,8 @@ public class Ingredienttest : MonoBehaviour
         InventoryManager.AddItem(new Item("사과", 1, "apple"));
         InventoryManager.AddItem(new Item("바나나", 1, "banana1"));
         InventoryManager.AddItem(new Item("바나나2", 1, "banana2"));
+        
+        
 
 
     }
