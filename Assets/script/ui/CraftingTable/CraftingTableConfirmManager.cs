@@ -24,7 +24,7 @@ public class CraftingTableConfirmManager : MonoBehaviour
     // 제작 취소 버튼 로직에 사용
     GameObject Scroll;
     string DetailExpression1;
-    string ScrollType;
+    string itemType;
     public GameObject DetailImage;
     public GameObject ConfirmImage;
     public GameObject ConfirmImageText;
@@ -35,6 +35,9 @@ public class CraftingTableConfirmManager : MonoBehaviour
     {
         itemName = GameObject.Find("DetailName").GetComponent<Text>().text;
         itemImage = GameObject.Find("DetailIconImage").GetComponent<Image>();
+
+        DetailExpression1 = GameObject.Find("DetailExpression1").GetComponent<Text>().text;
+        itemType = DetailExpression1.Substring(DetailExpression1.Length - 2);
 
         itemIngredientImage1 = GameObject.Find("DetailIngredientImage1").GetComponent<Image>();
         itemIngredientImage2 = GameObject.Find("DetailIngredientImage2").GetComponent<Image>();
@@ -57,6 +60,7 @@ public class CraftingTableConfirmManager : MonoBehaviour
                 InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name));
                 InventoryManager.AddItem(new Item("itemName", 1, itemImage.sprite.name));
                 ConfirmImageText.GetComponent<Text>().text = "제작되었습니다.";
+                Debug.Log(itemType);
             }
             else
             {
@@ -134,15 +138,15 @@ public class CraftingTableConfirmManager : MonoBehaviour
         //세부사항 창 찾음
         DetailImage = GameObject.Find("DetailImage");
         DetailExpression1 = GameObject.Find("DetailExpression1").GetComponent<Text>().text;
-        ScrollType = DetailExpression1.Substring(DetailExpression1.Length - 2);
+        itemType = DetailExpression1.Substring(DetailExpression1.Length - 2);
         
         //세부사항의 문자열을 이용해 해당 아이템이 어느 스크롤뷰에 있는지 찾음
-        if(ScrollType == "도구")
+        if(itemType == "도구")
         {
             Scroll = GameObject.Find("ToolScroll");
             
         }
-        else if(ScrollType == "음식")
+        else if(itemType == "음식")
         {
             Scroll = GameObject.Find("FoodScroll");
         }

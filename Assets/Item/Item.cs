@@ -14,7 +14,10 @@ public class Item
     private string imageName;
 
     //아이템이 인벤토리의 몇번째 슬롯에 있는지 나타내는 숫자
-    private int slotnumber;
+    //private int slotnumber;
+
+    //아이템의 종류
+    private string itemType;
 
     //이외에도 내구도와 같은 프로퍼티를 여기에 추가로 생성가능
 
@@ -59,15 +62,27 @@ public class Item
         imageName = newImageName;
     }
 
-    //아이템의 이미지의 이름 가져올때 사용
-    public int GetSlotNumber()
-    {
-        return slotnumber;
-    }
-    //아이템의 이미지의 이름 지정할때 사용
-    public void SetSlotNumber(int newSlotNumber)
-    {
-        slotnumber = newSlotNumber;
-    }
+    /*
+        //아이템의 이미지의 이름 가져올때 사용
+        public int GetSlotNumber()
+        {
+            return slotnumber;
+        }
+        //아이템의 이미지의 이름 지정할때 사용
+        public void SetSlotNumber(int newSlotNumber)
+        {
+            slotnumber = newSlotNumber;
+        }
+    */
 
+    //아이템의 종류 가져올때 사용
+    public string GetitemType()
+    {
+        return itemType;
+    }
+    //아이템의 종류 지정할때 사용
+    public void SetitemType(string newitemType)
+    {
+        itemType = newitemType;
+    }
 }

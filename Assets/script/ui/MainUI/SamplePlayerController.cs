@@ -22,6 +22,7 @@ public class SamplePlayerController : MonoBehaviour
 
     enum States
     {
+        idle = 0,
         up = 1,
         down = 2,
         left = 3,
@@ -42,7 +43,7 @@ public class SamplePlayerController : MonoBehaviour
         TryRun();
         Move();
 
-    
+        
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             animator.speed = applySpeed / 2.0f;
@@ -99,9 +100,15 @@ public class SamplePlayerController : MonoBehaviour
         {
             animator.SetInteger(animationState, (int)States.up);
         }
-        else if (moveY > 0)
+        else if (moveY < 0)
         {
             animator.SetInteger(animationState, (int)States.down);
         }
+        /*
+        else
+        {
+            animator.SetInteger(animationState, (int)States.idle);
+        }
+        */
     }
 }
