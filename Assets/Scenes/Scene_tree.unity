@@ -178,7 +178,7 @@ MonoBehaviour:
   speed: 5
   chopDuration: 3
   rockPrefab: {fileID: 5035180223538698559}
-  leafPrefab: {fileID: 8560378249013202610}
+  leafPrefab: {fileID: 1743558619}
 --- !u!212 &1164134884
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -328,6 +328,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1743558619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7598224167347537978, guid: 6b009ac627aec3842999aabc307a0f63, type: 3}
+  m_PrefabInstance: {fileID: 6114536437754205683}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1749133055
 GameObject:
   m_ObjectHideFlags: 0
@@ -3812,17 +3817,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1360343195810282131, guid: 6b009ac627aec3842999aabc307a0f63, type: 3}
+      propertyPath: m_SortingOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6864846621254728695, guid: 6b009ac627aec3842999aabc307a0f63, type: 3}
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6864846621254728695, guid: 6b009ac627aec3842999aabc307a0f63, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.7454
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864846621254728695, guid: 6b009ac627aec3842999aabc307a0f63, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5.2182
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864846621254728695, guid: 6b009ac627aec3842999aabc307a0f63, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 13.07
       objectReference: {fileID: 0}
     - target: {fileID: 6864846621254728695, guid: 6b009ac627aec3842999aabc307a0f63, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.28
       objectReference: {fileID: 0}
     - target: {fileID: 6864846621254728695, guid: 6b009ac627aec3842999aabc307a0f63, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3923,8 +3940,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 592caf9073d2eca43a32628dce000833, type: 3}
---- !u!1 &8560378249013202610 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8047044433669020837, guid: 592caf9073d2eca43a32628dce000833, type: 3}
-  m_PrefabInstance: {fileID: 8560378249013202609}
-  m_PrefabAsset: {fileID: 0}
