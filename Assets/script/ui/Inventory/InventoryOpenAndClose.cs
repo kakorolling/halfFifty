@@ -18,8 +18,8 @@ public class InventoryOpenAndClose : MonoBehaviour
         {
             activelInventory = !activelInventory;
             inventoryPanel.SetActive(activelInventory);
-            inventoryManager.ShowItem();
-
         }
+        
+        inventoryManager.ShowItem();
     }
 }

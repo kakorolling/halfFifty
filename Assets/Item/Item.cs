@@ -22,11 +22,12 @@ public class Item
     //이외에도 내구도와 같은 프로퍼티를 여기에 추가로 생성가능
 
     //생성자 (아이템을 new로 생성할때 new Item(itemName, 1, itemImage.sprite.name) 이런식으로 생성 가능)
-    public Item(string Name, int amount, string imageName)
+    public Item(string Name, int amount, string imageName, string itemType)
     {
         this.Name = Name;
         this.amount = amount;
         this.imageName = imageName;
+        this.itemType = itemType;
     }
 
     //아이템의 이름 가져올때 사용
@@ -76,12 +77,12 @@ public class Item
     */
 
     //아이템의 종류 가져올때 사용
-    public string GetitemType()
+    public string GetItemType()
     {
         return itemType;
     }
     //아이템의 종류 지정할때 사용
-    public void SetitemType(string newitemType)
+    public void SetItemType(string newitemType)
     {
         itemType = newitemType;
     }

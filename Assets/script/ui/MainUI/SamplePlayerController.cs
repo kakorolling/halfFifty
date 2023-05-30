@@ -20,7 +20,13 @@ public class SamplePlayerController : MonoBehaviour
     private Animator animator;
     string animationState = "AnimationState";
 
-    enum States
+    //QuickSlotController의 Usingitem을 사용하기 위한 참조
+    private QuickSlotController QuickSlotController;
+
+    public GameObject PlayerSample;
+   
+    
+    enum FarmerBasicStates
     {
         idle = 0,
         up = 1,
@@ -29,6 +35,16 @@ public class SamplePlayerController : MonoBehaviour
         right = 4
     }
 
+    enum FarmerWoodAxeStates
+    {
+        idle = 5,
+        up = 6,
+        down = 7,
+        left = 8,
+        right = 9
+    }
+
+
     private void Start()
     {
         theStatusController = FindObjectOfType<StatusController>();
@@ -36,6 +52,10 @@ public class SamplePlayerController : MonoBehaviour
 
         //rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        QuickSlotController = FindObjectOfType<QuickSlotController>();
+        
+        
     }
 
     private void Update()
@@ -87,28 +107,68 @@ public class SamplePlayerController : MonoBehaviour
 
         Vector2 movement = new Vector2(moveX, moveY);
         transform.Translate(movement * applySpeed * Time.deltaTime);
+        Item Usingitem = QuickSlotController.Usingitem;
+        Debug.Log(Usingitem.GetImageName());
+        Debug.Log(PlayerSample.GetComponent<SpriteRenderer>().sprite);
+        
+        // 기본 농부
+        if(Usingitem.GetName() == "")
+        {
+            if (moveX > 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerBasicStates.right);
+            }
+            else if (moveX < 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerBasicStates.left);
+            }
+            else if (moveY > 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerBasicStates.up);
+            }
+            else if (moveY < 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerBasicStates.down);
+            }
+            /*
+            else
+            {
+                animator.SetInteger(animationState, (int)FarmerBasicStates.idle);
+            }
+            */
+        }
 
-        if (moveX > 0)
+        
+        else if(Usingitem.GetImageName() == "WoodAxe")
         {
-            animator.SetInteger(animationState, (int)States.right);
+            animator.enabled = false;
+            PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("sprite/PlayerImage/Farmer_WoodAxe/Farmer_WoodAxe_Basic");
+            animator.SetInteger(animationState, (int)FarmerWoodAxeStates.idle);
+            animator.enabled = true;
+            
+            
+            if (moveX > 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerWoodAxeStates.right);
+            }
+            else if (moveX < 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerWoodAxeStates.left);
+            }
+            else if (moveY > 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerWoodAxeStates.up);
+            }
+            else if (moveY < 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerWoodAxeStates.down);
+            }
+           
+            
+            
         }
-        else if (moveX < 0)
-        {
-            animator.SetInteger(animationState, (int)States.left);
-        }
-        else if (moveY > 0)
-        {
-            animator.SetInteger(animationState, (int)States.up);
-        }
-        else if (moveY < 0)
-        {
-            animator.SetInteger(animationState, (int)States.down);
-        }
-        /*
-        else
-        {
-            animator.SetInteger(animationState, (int)States.idle);
-        }
-        */
-    }
+        
+    }   
+            
+    
 }

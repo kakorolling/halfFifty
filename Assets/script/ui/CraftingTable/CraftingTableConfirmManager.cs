@@ -55,12 +55,12 @@ public class CraftingTableConfirmManager : MonoBehaviour
         // 재료 아이템의 종류가 1개일때
         if(itemIngredientImage2.sprite.name == "Transparent")
         {
-            if(InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name)))
+            if(InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, "")))
             {
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name));
-                InventoryManager.AddItem(new Item("itemName", 1, itemImage.sprite.name));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, ""));
+                InventoryManager.AddItem(new Item("itemName", 1, itemImage.sprite.name, itemType));
                 ConfirmImageText.GetComponent<Text>().text = "제작되었습니다.";
-                Debug.Log(itemType);
+                //Debug.Log(itemType);
             }
             else
             {
@@ -71,12 +71,12 @@ public class CraftingTableConfirmManager : MonoBehaviour
         // 재료 아이템의 종류가 2개일때
         else if(itemIngredientImage3.sprite.name == "Transparent")
         {
-            if(InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name)) &&
-                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name)))
+            if(InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, "")) &&
+                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name, "")))
             {
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name));
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name));
-                InventoryManager.AddItem(new Item(itemName, 1, itemImage.sprite.name));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, ""));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name, ""));
+                InventoryManager.AddItem(new Item(itemName, 1, itemImage.sprite.name, itemType));
                 ConfirmImageText.GetComponent<Text>().text = "제작되었습니다.";
             }
             else
@@ -88,14 +88,14 @@ public class CraftingTableConfirmManager : MonoBehaviour
         // 재료 아이템의 종류가 3개일때
         else if(itemIngredientImage4.sprite.name == "Transparent")
         {
-            if(InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name)) &&
-                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name)) &&
-                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount3), itemIngredientImage3.sprite.name)))
+            if(InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, "")) &&
+                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name, "")) &&
+                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount3), itemIngredientImage3.sprite.name, "")))
             {
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name));
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name));
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage3.sprite.name));
-                InventoryManager.AddItem(new Item(itemName, 1, itemImage.sprite.name));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, ""));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name, ""));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage3.sprite.name, ""));
+                InventoryManager.AddItem(new Item(itemName, 1, itemImage.sprite.name, itemType));
                 ConfirmImageText.GetComponent<Text>().text = "제작되었습니다.";
             }
             else
@@ -107,16 +107,16 @@ public class CraftingTableConfirmManager : MonoBehaviour
         // 재료 아이템의 종류가 4개일때
         else if(itemIngredientAmount4 != "Transparent")
         {
-            if(InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name)) &&
-                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name)) &&
-                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount3), itemIngredientImage3.sprite.name)) &&
-                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount4), itemIngredientImage4.sprite.name)))
+            if(InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, "")) &&
+                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name, "")) &&
+                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount3), itemIngredientImage3.sprite.name, "")) &&
+                InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount4), itemIngredientImage4.sprite.name, "")))
             {
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name));
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name));
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount3), itemIngredientImage3.sprite.name));
-                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount4), itemIngredientImage4.sprite.name));
-                InventoryManager.AddItem(new Item(itemName, 1, itemImage.sprite.name));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, ""));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name, ""));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount3), itemIngredientImage3.sprite.name, ""));
+                InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount4), itemIngredientImage4.sprite.name, ""));
+                InventoryManager.AddItem(new Item(itemName, 1, itemImage.sprite.name, itemType));
                 ConfirmImageText.GetComponent<Text>().text = "제작되었습니다.";
             }
             else

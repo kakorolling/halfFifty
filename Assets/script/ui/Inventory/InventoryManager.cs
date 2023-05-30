@@ -33,6 +33,7 @@ public class InventoryManager
         }
         // inventoryItems 배열에 아이템 추가
         inventoryItems.Add(item);
+        //Debug.Log(item.GetItemType());
     
         //인벤토리 사이즈 초과시 아이템 더 획득 안되게하는 기능 추가 필요
     }
@@ -113,7 +114,7 @@ public class InventoryManager
             // 할당된 정보로 슬롯의 갯수 텍스트 설정
             Text slotText =  slots[i].transform.GetChild(1).GetComponent<Text>();
             slotText.text = itemAmount.ToString();
-            Debug.Log(slotText.text);
+            //Debug.Log(slotText.text);
 
             
         }

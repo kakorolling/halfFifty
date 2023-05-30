@@ -1,43 +1,43 @@
 fileFormatVersion: 2
-guid: 1619a351753db2549a23b1fdfae8378f
+guid: 2ae3043e659e7e34693a5e57e2671c2a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8384177929504667653
-    second: Farmer_Basic_0
+      213: 2055365144805163049
+    second: Farmer_WoodAxe_0
   - first:
-      213: 9066637283573076564
-    second: Farmer_Basic_1
+      213: 8102500913846531097
+    second: Farmer_WoodAxe_1
   - first:
-      213: -8235682483455993347
-    second: Farmer_Basic_2
+      213: -3752796975737569081
+    second: Farmer_WoodAxe_2
   - first:
-      213: -1527034949560750450
-    second: Farmer_Basic_3
+      213: 3238874752053495478
+    second: Farmer_WoodAxe_3
   - first:
-      213: -8121598772043005381
-    second: Farmer_Basic_4
+      213: 1672001509564698028
+    second: Farmer_WoodAxe_4
   - first:
-      213: -3873867832188559814
-    second: Farmer_Basic_5
+      213: -3677843973794664696
+    second: Farmer_WoodAxe_5
   - first:
-      213: -2098290213094191037
-    second: Farmer_Basic_6
+      213: -2254404744766894342
+    second: Farmer_WoodAxe_6
   - first:
-      213: 537904146502142295
-    second: Farmer_Basic_7
+      213: -7457115290079114458
+    second: Farmer_WoodAxe_7
   - first:
-      213: -1654809216280268881
-    second: Farmer_Basic_8
+      213: 8503024369483698687
+    second: Farmer_WoodAxe_8
   - first:
-      213: -2395699200972744112
-    second: Farmer_Basic_9
+      213: -1993911244922764589
+    second: Farmer_WoodAxe_9
   - first:
-      213: -8616059306053461701
-    second: Farmer_Basic_10
+      213: -2337418198234234020
+    second: Farmer_WoodAxe_10
   - first:
-      213: 7276466817421236944
-    second: Farmer_Basic_11
+      213: -3413144771399257965
+    second: Farmer_WoodAxe_11
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -127,253 +127,253 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Farmer_Basic_0
+      name: Farmer_WoodAxe_0
       rect:
         serializedVersion: 2
         x: 0
         y: 144
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 508bbc5d7659a5470800000000000000
-      internalID: 8384177929504667653
+      spriteID: 920c4db95bf168c10800000000000000
+      internalID: 2055365144805163049
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_1
+      name: Farmer_WoodAxe_1
       rect:
         serializedVersion: 2
         x: 48
         y: 144
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4529fa2829a23dd70800000000000000
-      internalID: 9066637283573076564
+      spriteID: 914b91af6add17070800000000000000
+      internalID: 8102500913846531097
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_2
+      name: Farmer_WoodAxe_2
       rect:
         serializedVersion: 2
         x: 96
         y: 144
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df9d2b27a6af4bd80800000000000000
-      internalID: -8235682483455993347
+      spriteID: 7c08003a8036bebc0800000000000000
+      internalID: -3752796975737569081
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_3
+      name: Farmer_WoodAxe_3
       rect:
         serializedVersion: 2
         x: 0
         y: 96
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e8e23dfcdc1eecae0800000000000000
-      internalID: -1527034949560750450
+      spriteID: 6b6412c3d6bc2fc20800000000000000
+      internalID: 3238874752053495478
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_4
+      name: Farmer_WoodAxe_4
       rect:
         serializedVersion: 2
         x: 48
         y: 96
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b32c02862f84a4f80800000000000000
-      internalID: -8121598772043005381
+      spriteID: cad4589a384243710800000000000000
+      internalID: 1672001509564698028
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_5
+      name: Farmer_WoodAxe_5
       rect:
         serializedVersion: 2
         x: 96
         y: 96
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3e96933bb14d3ac0800000000000000
-      internalID: -3873867832188559814
+      spriteID: 80f68a2546ca5fcc0800000000000000
+      internalID: -3677843973794664696
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_6
+      name: Farmer_WoodAxe_6
       rect:
         serializedVersion: 2
         x: 0
         y: 48
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34097dc1b2061e2e0800000000000000
-      internalID: -2098290213094191037
+      spriteID: afec63834deb6b0e0800000000000000
+      internalID: -2254404744766894342
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_7
+      name: Farmer_WoodAxe_7
       rect:
         serializedVersion: 2
         x: 48
         y: 48
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7594877a8f4077700800000000000000
-      internalID: 537904146502142295
+      spriteID: 62b43b53721038890800000000000000
+      internalID: -7457115290079114458
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_8
+      name: Farmer_WoodAxe_8
       rect:
         serializedVersion: 2
         x: 96
         y: 48
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: faf629c09cfe809e0800000000000000
-      internalID: -1654809216280268881
+      spriteID: ff1d093fc9fc00670800000000000000
+      internalID: 8503024369483698687
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_9
+      name: Farmer_WoodAxe_9
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 05a15590544c0ced0800000000000000
-      internalID: -2395699200972744112
+      spriteID: 3d2c8b479443454e0800000000000000
+      internalID: -1993911244922764589
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_10
+      name: Farmer_WoodAxe_10
       rect:
         serializedVersion: 2
         x: 48
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b391cf206bb9d6880800000000000000
-      internalID: -8616059306053461701
+      spriteID: c5307ba6882df8fd0800000000000000
+      internalID: -2337418198234234020
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Farmer_Basic_11
+      name: Farmer_WoodAxe_11
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0da5f40a4043bf460800000000000000
-      internalID: 7276466817421236944
+      spriteID: 390f3cdf9e212a0d0800000000000000
+      internalID: -3413144771399257965
       vertices: []
       indices: 
       edges: []
