@@ -7,6 +7,9 @@ TagManager:
   - Scroll
   - DetailImage
   - Slot
+  - tree
+  - Tree
+  - Rock
   layers:
   - Default
   - TransparentFX
