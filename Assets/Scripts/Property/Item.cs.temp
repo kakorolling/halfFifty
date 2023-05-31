@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Dynamic;
+
+public class Item : Property//jungbok solved
+{
+    string _name;
+    int _count;//아이템의 수량
+    string _imageId;//아이템의 이미지의 이름(이미지를 보이게 할때 필요)
+    public override dynamic data
+    {
+        get
+        {
+            dynamic value = new ExpandoObject();
+            value.name = _name;
+            value.count = _count;
+            value.imageId = _imageId;
+            return value;
+        }
+        set
+        {
+            _name = value.name;
+            _count = value.count;
+            _imageId = value.imageId;
+        }
+    }
+    public void RunLeft()
+    {
+        //효과 발동
+        //여기는 일단 남겨둠
+    }
+    public void RunRight()
+    {
+        //효과 발동
+    }
+}
+
+//
+
