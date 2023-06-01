@@ -17,24 +17,26 @@ public class Pause : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
+            /*
             if (!GameManager.isPaused)
                 OpenMenu();
             else
             {
                 CloseMenu();
             }
+            */
         }
 
     }
     private void OpenMenu()
     { // CallMenu -> OpenMenu: CloseMenu랑 대비되게 함수 이름 바꿈
-        GameManager.isPaused = true;
+        //GameManager.isPaused = true;
         Pause_UI.SetActive(true);
         Time.timeScale = 0f;
     }
     private void CloseMenu()
     {
-        GameManager.isPaused = false;
+        //GameManager.isPaused = false;
         Pause_UI.SetActive(false);
         Time.timeScale = 1f;
     }
