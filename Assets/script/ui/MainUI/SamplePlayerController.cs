@@ -98,29 +98,21 @@ public class SamplePlayerController : MonoBehaviour
         }
         else
         {
-            animator.speed = 0f;
+            animator.speed = 1f;
         }
 
         if(Usingitem.GetName() == "" || Usingitem.GetName() == "나무 도끼")
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if(Input.GetKeyDown(KeyCode.F))
             {   
-                animationDuration = 3f;
-                StartCoroutine(PlayAnimationWithDelay(animationDuration));
+                Debug.Log("goood");
                 LoggingManager.TryStartLogging();
+                
             }
         }
         
-        
     }
 
-    private IEnumerator PlayAnimationWithDelay(float delay)
-    {
-        animator.SetInteger(animationState, (int)FarmerLoggingStates.left);
-        yield return new WaitForSeconds(delay);
-        // 애니메이션 종료 후에 실행할 동작
-        LoggingManager.TryStartLogging();
-    }
 
     private void Running()
     {

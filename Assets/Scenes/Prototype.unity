@@ -1387,8 +1387,6 @@ MonoBehaviour:
   LoggingDuration: 3
   TreeStumpPrefab: {fileID: 5940699171235795377, guid: 6af45b665f27330429742228e6a70b92, type: 3}
   WoodPrefab: {fileID: 5653261708995922333, guid: 2904667775347754d90916efa378f255, type: 3}
-  duration: 3
-  animationClip: {fileID: 7400000, guid: 6805e91ff9dc0a242b38e7baa6558955, type: 2}
 --- !u!61 &141267348
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3813,6 +3811,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad8fcb329090534d9c41f10ffb12ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerGo: {fileID: 0}
+  isPaused: 0
 --- !u!114 &443732020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18593,7 +18593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 213373735292847848, guid: e782418492aa49d4b97a0b525270f9c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.54
+      value: -2.01
       objectReference: {fileID: 0}
     - target: {fileID: 213373735292847848, guid: e782418492aa49d4b97a0b525270f9c3, type: 3}
       propertyPath: m_LocalPosition.y

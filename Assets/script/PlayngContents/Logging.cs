@@ -10,14 +10,13 @@ public class Logging : MonoBehaviour
     public GameObject WoodPrefab;
     private Rigidbody2D rb;
     private Collider2D currentTreeCollider;
-
-    private Animator animator;
-    string animationState = "AnimationState";
-    public float duration = 3f;
-    public AnimationClip animationClip;
+    
 
     //QuickSlotController의 Usingitem을 사용하기 위한 참조
     private QuickSlotController QuickSlotController;
+
+    private Animator animator;
+    string animationState = "AnimationState";
 
     enum FarmerLoggingStates
     {
@@ -29,20 +28,29 @@ public class Logging : MonoBehaviour
     {
         //주변에 콜라이더 오브젝트 탐색
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 3f);
-
-        animator = GetComponent<Animator>();
        
         foreach (Collider2D collider in colliders)
         {
             Debug.Log("good");
+            
+            animator = GetComponent<Animator>();
+            GetComponent<SamplePlayerController>().enabled = false;
+
             // 탐색된 콜라이더 오브젝트의 태그가 tree인지 확인
             if (collider.CompareTag("Tree"))
             {
                 Debug.Log("벌목을 시작합니다: " + collider.gameObject.name);
                 currentTreeCollider = collider;
-                //animator.SetInteger(animationState, (int)FarmerLoggingStates.left);
-                //StartCoroutine(PlayLoggingAnimation());
-                //animator.SetTrigger("Logging_left");
+                
+                if(currentTreeCollider.transform.position.x < transform.position.x)
+                {
+                    animator.SetInteger(animationState, (int)FarmerLoggingStates.left);
+                }
+                else if(currentTreeCollider.transform.position.x > transform.position.x)
+                {
+                    animator.SetInteger(animationState, (int)FarmerLoggingStates.right);
+                }
+                
                 StartCoroutine(Loggingstart());
                 break;
             }
@@ -56,10 +64,6 @@ public class Logging : MonoBehaviour
     {
         
         yield return new WaitForSeconds(LoggingDuration);
-
-        
-
-        
         FinishLogging();
     }
 
@@ -72,6 +76,7 @@ public class Logging : MonoBehaviour
 
     private void FinishLogging()
     {
+        GetComponent<SamplePlayerController>().enabled = true;
         QuickSlotController = FindObjectOfType<QuickSlotController>();
         Item Usingitem = QuickSlotController.Usingitem;
         Debug.Log("벌목이 완료되었습니다.");
