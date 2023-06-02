@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.IO;
-using System.Dynamic;
 using UnityEngine.Tilemaps;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,18 +14,20 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         if (instance != null) Destroy(gameObject);
-        instance = this;//이 클래스 인스턴스가 탄생했을 때 전역변수 instance에 게임매니저 인스턴스가 담겨있지 않다면, 자신을 넣어준다.
-        DontDestroyOnLoad(gameObject); //씬 전환이 되더라도 파괴되지 않게 한다.
+        instance = this;
+        DontDestroyOnLoad(gameObject); //씬이 전환되더라도 파괴되지 않음
     }
-    SettingData settingData;
-    GameData gameData;
-    public GameObject playerObj { get; private set; }
+
+    public Setting setting { get; private set; }
+    public Game game { get; private set; }
+    public GameObject playerGo;//Todo: 다른곳으로 이동해서 더 단순하게 처리
+    public bool isPaused;
+
     void Start()
     {
-        if (!LoadSetting("default")) CreateDefaultSetting();
-        if (!LoadGame("dummy")) CreateDummyGame();
-        else StartGame();
-        MapEditor.instance.Init(gameData.mapDic);
+        if (!LoadSetting("default")) LoadDefaultSetting();
+        if (!LoadGame("dummy")) LoadDummyGame();
+        //MapEditor.instance.Init(game.mapDic);
     }
     void OnApplicationQuit()
     {
@@ -37,57 +36,96 @@ public class GameManager : MonoBehaviour
     }
 
     //setting
-    void CreateDefaultSetting()
-    {
-        settingData = new SettingData()
-        {
-            chunkSize = new Vector2Int(32, 32),
-            seamlessRange = 2,
-            audioVolume = 100
-        };
-    }
     bool SaveSetting(string settingName)
     {
-        if (settingData == null)
+        if (setting == null)
         {
-            Debug.LogError("There is no setting data");
+            Debug.LogError("There is no setting");
             return false;
         }
-        string filePath = $"{Application.persistentDataPath}/{settingName}.setting_data";
-        string json = JsonConvert.SerializeObject(settingData);
+        string filePath = $"{Application.persistentDataPath}/{settingName}.setting";
+        string json = JsonConvert.SerializeObject(setting);
         System.IO.File.WriteAllText(filePath, json);
         Debug.LogWarning("Setting saved as" + filePath);
         return true;
     }
     bool LoadSetting(string settingName)
     {
-        string filePath = $"{Application.persistentDataPath}/{settingName}.setting_data";
+        string filePath = $"{Application.persistentDataPath}/{settingName}.setting";
         if (!File.Exists(filePath))
         {
             Debug.LogError("Setting file not found in " + filePath);
             return false;
         }
         string json = System.IO.File.ReadAllText(filePath);
-        settingData = JsonConvert.DeserializeObject<SettingData>(json);
-        if (settingData == null)
+
+        setting = JsonConvert.DeserializeObject<Setting>(json);
+        if (setting == null)
         {
             Debug.LogError("Setting file is invalid");
             return false;
         }
         return true;
     }
+    void LoadDefaultSetting()
+    {
+        setting = new Setting()
+        {
+            chunkSize = new Vector2Int(32, 32),
+            seamlessRange = 2,
+            audioVolume = 100
+        };
+    }
 
     //game
-    void CreateDummyGame()
+    public bool SaveGame(string gameName)
+    {
+        if (game == null)
+        {
+            Debug.LogError("There is no game");
+            return false;
+        }
+        string filePath = $"{Application.persistentDataPath}/{gameName}.game";
+        string json = JsonConvert.SerializeObject(game);
+        System.IO.File.WriteAllText(filePath, json);
+        Debug.LogWarning("Game saved as" + filePath);
+        return true;
+    }
+    public bool LoadGame(string gameName)
+    {
+        //세이브 데이터에 플레이어 오브젝트의 아이디값이 있어야함 -> 맵 아이디랑 포지션(좌표값)이 있어야함
+        string filePath = $"{Application.persistentDataPath}/{gameName}.game";
+        if (!File.Exists(filePath))
+        {
+            Debug.LogError("Game file not found in " + filePath);
+            return false;
+        }
+        string json = System.IO.File.ReadAllText(filePath);
+        game = JsonConvert.DeserializeObject<Game>(json);
+        if (game == null)
+        {
+            Debug.LogError("Game file is invalid");
+            return false;
+        }
+
+        Camera.main.GetComponent<CameraController>().StartTraceTarget();
+        Guid mapId = game.camPos.mapId;
+        LoadMap(mapId);
+        return true;
+    }
+    void LoadDummyGame()
     {
         Guid mapId = Guid.NewGuid();
         Position playerObjPos = new Position(mapId, 512, 512);
-        gameData = new GameData();
-        gameData.mapDic = new Dictionary<Guid, MapData>();
-        gameData.objDic = new Dictionary<Guid, ObjData>();
-        gameData.camPos = playerObjPos;
 
-        MapData mapData = new MapData()
+        game = new Game()
+        {
+            mapDic = new Dictionary<Guid, Map>(),
+            objDic = new Dictionary<Guid, Obj>(),
+            camPos = playerObjPos,
+        };
+
+        Map map = new Map()
         {
             size = new Vector2Int(1024, 1024),
             terrainLayer = new int[1024][]
@@ -100,103 +138,64 @@ public class GameManager : MonoBehaviour
                     .Select(e => null as List<Guid>)
                     .ToArray())
                 .ToArray(),
-            colliderLayer = new bool[1024][]
-                .Select(e => new bool[1024]
-                    .Select(e => false)
+            colliderLayer = new int[1024][]
+                .Select(e => new int[1024]
+                    .Select(e => 0)
                     .ToArray())
                 .ToArray()
         };
-        gameData.mapDic.Add(mapId, mapData);
+        game.mapDic.Add(mapId, map);
 
-        ObjData ptObjData = new ObjData();
-        Guid ptObjId = Guid.NewGuid();
-        ptObjData.common = new CommonData() { type = "CommonData" };
-        ptObjData.common.id = ptObjId;
-        ptObjData.common.position = default(Position);
-        ptObjData.common.pointArr = new Vector2Int[]{
-            new Vector2Int(0,0),
-            new Vector2Int(1,0),
-            new Vector2Int(0,1),
-            new Vector2Int(1,1)
-        };
-        ptObjData.propertyDic = new Dictionary<string, PropertyData>(){
-            {"Mover",new MoverData(){type="MoverData"}},
-            {"Graphic",new GraphicData(){type="GraphicData"}}
-        };
-        ((MoverData)ptObjData.propertyDic["Mover"]).speed = 4f;
-        ((GraphicData)ptObjData.propertyDic["Graphic"]).spriteId = "flower_factory_3";
-        gameData.objDic.Add(ptObjId, ptObjData);
-        StartGame();
-        gameData.playerObjId = CreateObj(ptObjId, playerObjPos);
-        playerObj = objDic[gameData.playerObjId];
-    }
-    public bool SaveGame(string gameName)
-    {
-        if (gameData == null)
-        {
-            Debug.LogError("There is no game data");
-            return false;
-        }
-        string filePath = $"{Application.persistentDataPath}/{gameName}.game_data";
-        string json = JsonConvert.SerializeObject(gameData);
-        System.IO.File.WriteAllText(filePath, json);
-        Debug.LogWarning("Game saved as" + filePath);
-        return true;
-    }
-    public bool LoadGame(string gameName)
-    {
-        //세이브 데이터에 플레이어 오브젝트의 아이디값이 있어야함 -> 맵 아이디랑 포지션(좌표값)이 있어야함
-        string filePath = $"{Application.persistentDataPath}/{gameName}.game_data";
-        if (!File.Exists(filePath))
-        {
-            Debug.LogError("Game file not found in " + filePath);
-            return false;
-        }
-        string json = System.IO.File.ReadAllText(filePath);
-        gameData = JsonConvert.DeserializeObject<GameData>(json);
-        if (gameData == null)
-        {
-            Debug.LogError("Game file is invalid");
-            return false;
-        }
-        return true;
-    }
-    public bool StartGame()
-    {
-        //카메라
+        Obj originObj = Obj.Create(
+            Common.Create(pointArr: new Vector2Int[]{
+                    new Vector2Int(0,0),
+                    new Vector2Int(1,0),
+                    new Vector2Int(0,1),
+                    new Vector2Int(1,1)
+                }),
+            Mover.Create(speed: 4f),
+            Graphic.Create(spriteId: "flower_factory_3")
+        );
+        Guid originObjId = Guid.NewGuid();
+        game.objDic.Add(originObjId, originObj);
+        game.playerObjId = CreateObj(originObjId, playerObjPos).id;
+
         Camera.main.GetComponent<CameraController>().StartTraceTarget();
-        //맵
-        Guid mapId = gameData.camPos.mapId;
-        MapData mapData = gameData.mapDic[mapId];
-        LoadMap(mapData);
-
-        return true;
+        LoadMap(mapId);
     }
-    string[] GetGameNameArr() //이름 목록만 가져옴
+    string[] GetSettingNameArr()
     {
-        string directoryPath = Application.persistentDataPath;
-        string[] gameNameList =
-        Directory.GetFiles(directoryPath, "*.game_data")
+        string[] settingNameArr =
+        Directory.GetFiles(Application.persistentDataPath, "*.setting")
         .Select(e => Path.GetFileName(e))
         .ToArray();
-        return gameNameList;
+        return settingNameArr;
+    }
+    string[] GetGameNameArr()
+    {
+        string[] gameNameArr =
+        Directory.GetFiles(Application.persistentDataPath, "*.game")
+        .Select(e => Path.GetFileName(e))
+        .ToArray();
+        return gameNameArr;
     }
 
     //map
-    MapData mapData;
+    Guid mapId;
+    Map map;
     Transform mapTf;
-    public void LoadMap(MapData mapData)
+    public void LoadMap(Guid mapId)
     {
-        if (mapData != null) StopUpdateSeamless();
-        this.mapData = mapData;
+        Map map = game.mapDic[mapId];
+        if (map != null) StopUpdateSeamless();
+        this.map = map;
         var mapObj = new GameObject();
-        mapObj.name = "map";
+        //mapObj.name = "map";
         mapObj.AddComponent<Grid>();
         this.mapTf = mapObj.transform;
 
         StartUpdateSeamless();
     }
-    Vector2Int chunkSize;
     int seamlessRangeIn, seamlessRangeOut;
     Dictionary<Vector2Int, GameObject> chunkDic;
     Vector2Int centerIdx;
@@ -205,10 +204,8 @@ public class GameManager : MonoBehaviour
     void StartUpdateSeamless()
     {
         if (coUpdateSeamless != null) return;
-        //setting
-        chunkSize = settingData.chunkSize;
-        seamlessRangeIn = settingData.seamlessRange - 1;
-        seamlessRangeOut = settingData.seamlessRange + 1;
+        seamlessRangeIn = setting.seamlessRange - 1;
+        seamlessRangeOut = setting.seamlessRange + 1;
 
         chunkDic = new Dictionary<Vector2Int, GameObject>();
         centerIdx = new Vector2Int(int.MaxValue, int.MaxValue);
@@ -237,9 +234,9 @@ public class GameManager : MonoBehaviour
             {
                 Vector2Int chunkIdx = kvp.Key;
                 if (chunkIdx.x < newCenterIdx.x - seamlessRangeOut
-                | chunkIdx.x > newCenterIdx.x + seamlessRangeOut
-                | chunkIdx.y < newCenterIdx.y - seamlessRangeOut
-                | chunkIdx.y > newCenterIdx.y + seamlessRangeOut)
+                || chunkIdx.x > newCenterIdx.x + seamlessRangeOut
+                || chunkIdx.y < newCenterIdx.y - seamlessRangeOut
+                || chunkIdx.y > newCenterIdx.y + seamlessRangeOut)
                     unloadIdxList.Add(chunkIdx);
             }
             foreach (Vector2Int unloadIdx in unloadIdxList)
@@ -252,7 +249,6 @@ public class GameManager : MonoBehaviour
             {
                 for (int y = newCenterIdx.y - seamlessRangeIn; y <= newCenterIdx.y + seamlessRangeIn; y++)
                 {
-                    Debug.Log(new Vector2Int(x, y));
                     LoadChunk(new Vector2Int(x, y));
                 }
             }
@@ -262,201 +258,201 @@ public class GameManager : MonoBehaviour
     }
     void LoadChunk(Vector2Int chunkIdx)
     {
+        GameObject chunkObj;
         if (chunkDic.ContainsKey(chunkIdx)) return;
-        Vector2Int chunkPos = chunkSize * chunkIdx;
-        GameObject chunkObj = new GameObject();
-        chunkObj.name = chunkIdx.ToString();
+        chunkObj = new GameObject();
+        chunkObj.transform.parent = mapTf;
+        chunkObj.transform.position = (Vector2)setting.chunkSize * chunkIdx;
         chunkObj.AddComponent<Tilemap>();
         chunkObj.AddComponent<TilemapRenderer>();
-        chunkObj.transform.position = (Vector2)chunkPos;
-        Tilemap tilemap = chunkObj.GetComponent<Tilemap>();
-        chunkObj.transform.parent = mapTf;
         chunkDic.Add(chunkIdx, chunkObj);
-
-        for (int x = 0; x < chunkSize.x; x++)
-        {
-            for (int y = 0; y < chunkSize.y; y++)
-            {
-                int terrainId = mapData.terrainLayer[chunkPos.x + x][chunkPos.y + y];
-                TileBase tile = ResourceManager.instance.terrainDic[terrainId];
-                tilemap.SetTile(new Vector3Int(x, y, 0), tile);
-                List<Guid> objIdList = mapData.objLayer[chunkPos.x + x][chunkPos.y + y];
-                if (objIdList == null) continue;
-                foreach (Guid objId in objIdList)
-                {
-                    LoadObj(objId);
-                }
-            }
-        }
+        UpdateChunk(chunkIdx);
     }
     void UnloadChunk(Vector2Int chunkIdx)
     {
         if (!chunkDic.ContainsKey(chunkIdx)) return;
-        Destroy(chunkDic[chunkIdx]);
-        chunkDic.Remove(chunkIdx);
 
-        Vector2Int chunkPos = chunkSize * chunkIdx;
-        for (int x = 0; x < chunkSize.x; x++)
+        //chunkGo
+        Destroy(chunkDic[chunkIdx]);
+        //objGo
+        Vector2Int chunkPos = setting.chunkSize * chunkIdx;
+        for (int x = 0; x < setting.chunkSize.x; x++)
         {
-            for (int y = 0; y < chunkSize.y; y++)
+            for (int y = 0; y < setting.chunkSize.y; y++)
             {
-                List<Guid> objIdList = mapData.objLayer[chunkPos.x + x][chunkPos.y + y];
+                List<Guid> objIdList = map.objLayer[chunkPos.x + x][chunkPos.y + y];
                 if (objIdList == null) continue;
                 foreach (Guid objId in objIdList)
                 {
-                    UnloadObj(objId);
+                    GetObj(objId).UnloadGo();
+                }
+            }
+        }
+
+        chunkDic.Remove(chunkIdx);
+    }
+    public void UpdateChunk(Vector2Int chunkIdx)
+    {
+        GameObject chunkObj;
+        if (!chunkDic.TryGetValue(chunkIdx, out chunkObj)) return;
+        Tilemap tilemap = chunkObj.GetComponent<Tilemap>();
+        Vector2Int chunkPos = setting.chunkSize * chunkIdx;
+        for (int x = 0; x < setting.chunkSize.x; x++)
+        {
+            for (int y = 0; y < setting.chunkSize.y; y++)
+            {
+                //terrain
+                int terrainId = map.terrainLayer[chunkPos.x + x][chunkPos.y + y];
+                TileBase tile = ResourceManager.instance.terrainDic[terrainId];
+                tilemap.SetTile(new Vector3Int(x, y, 0), tile);
+                //obj
+                List<Guid> objIdList = map.objLayer[chunkPos.x + x][chunkPos.y + y];
+                if (objIdList != null)
+                {
+                    foreach (Guid objId in objIdList)
+                    {
+                        GetObj(objId).LoadGo();
+                    }
                 }
             }
         }
     }
-
-    public void EditTerrainLayer(Position position, int terrain)
+    public bool CheckIsCoordLoaded(Position position)
     {
-
-    }
-    public void EditColliderLayer(Position position, bool collider)
-    {
-
-    }
-    //세개 합쳐서 EditObjLayer
-    public void AttachObj(Guid objId, IEnumerable<Vector2Int> coordArr)
-    {
-        List<Guid> overlappedIdList = new List<Guid>();
-        overlappedIdList.Add(objId);
-        foreach (Vector2Int coord in coordArr)
-        {
-            List<Guid> idList = mapData.objLayer[coord.x][coord.y];
-            if (idList == null)
-            {
-                mapData.objLayer[coord.x][coord.y] = new List<Guid>();
-                idList = mapData.objLayer[coord.x][coord.y];
-            }
-            overlappedIdList.AddRange(idList);
-            idList.Add(objId);
-        }
-        overlappedIdList = overlappedIdList.Distinct().ToList();
-        foreach (Guid id in overlappedIdList)
-        {
-            Common common = objDic[id].GetComponent<Common>();
-            common.onOverlappingEnter?.Invoke();
-        }
-        UpdateObj(objId);
-    }
-    public void DetachObj(Guid objId, IEnumerable<Vector2Int> coordArr)
-    {
-        List<Guid> overlappedIdList = new List<Guid>();
-        overlappedIdList.Add(objId);
-        foreach (Vector2Int coord in coordArr)
-        {
-            List<Guid> idList = mapData.objLayer[coord.x][coord.y];
-            if (idList == null) continue;
-            overlappedIdList.AddRange(idList);
-            idList.Remove(objId);
-        }
-        overlappedIdList = overlappedIdList.Distinct().ToList();
-        foreach (Guid id in overlappedIdList)
-        {
-            Common common = objDic[id].GetComponent<Common>();
-            common.onOverlappingExit?.Invoke();
-        }
-        UpdateObj(objId);
-    }
-    void UpdateObj(Guid objId)
-    {
-        //만약 로드된맵으로 들어온거면 loadObj(), 로드된맵밖으로 나간거면 unloadObj()
-        Position objPos = gameData.objDic[objId].common.position;
-        bool isOnLoadedMap = objPos.mapId == gameData.camPos.mapId;
-        Vector2Int chunkIdx = ConvertWorldPosToChunkIdx((Vector2Int)objPos);
-        bool isOnLoadedChunk = chunkDic.ContainsKey(chunkIdx);
-        Debug.Log(isOnLoadedChunk);
-        if (isOnLoadedMap & isOnLoadedChunk) LoadObj(objId);
-        else UnloadObj(objId);
+        Vector2Int chunkIdx = ConvertWorldPosToChunkIdx((Vector2Int)position);
+        return (position.mapId == game.camPos.mapId) && (chunkDic != null) && (chunkDic.ContainsKey(chunkIdx));
     }
 
     //obj
-    Dictionary<Guid, GameObject> objDic = new Dictionary<Guid, GameObject>();
-    public Guid CreateObj(Guid objId, Position position)
+    //Dictionary<Guid, GameObject> objDic = new Dictionary<Guid, GameObject>();
+    public Obj CreateObj(Guid originObjId, Position position)
     {
-        ObjData objData = gameData.objDic[objId];
-        string objJson = JsonConvert.SerializeObject(objData);
-        ObjData newObjData = JsonConvert.DeserializeObject<ObjData>(objJson);
-        Guid newObjId = Guid.NewGuid();
-        //DeserializePropertyData(newObjData);
-        newObjData.common.id = newObjId;
-        gameData.objDic.Add(newObjId, newObjData);
-        LoadObj(newObjId);
-        objDic[newObjId].GetComponent<Common>().position = position;
-        return newObjId;
-    }
-    public void DestroyObj()
-    {
-    }
-    void LoadObj(Guid objId)
-    {
-        Debug.Log($"Load: {objId}");
-        if (objDic.ContainsKey(objId)) return;
-        ObjData objData = gameData.objDic[objId];
-        //DeserializePropertyData(objData);
-        GameObject obj = new GameObject();
-        obj.name = objId.ToString();
-        Common common = obj.AddComponent<Common>();
-        common.SetData(objData.common);
-        foreach (var kvp in objData.propertyDic)
+        Obj obj = GetObj(originObjId);
+        string objJson = JsonConvert.SerializeObject(obj);
+        Debug.Log(objJson);
+        Obj newObj = JsonConvert.DeserializeObject<Obj>(objJson);
+        newObj.id = Guid.NewGuid();
+        newObj.SetPropertyObjId();
+        foreach (var property in newObj.GetPropertyArr())
         {
-            string propertyName = kvp.Key;
-            dynamic propertyData = kvp.Value;
-            Property property = obj.AddComponent(Type.GetType(propertyName)) as Property;
-            property.SetData(propertyData);
+            property.obj = newObj;
         }
-        objDic.Add(objId, obj);
-        Debug.Log("A");
-        if (gameData.playerObjId == objId)
-        {
-            Debug.Log("B");
-            playerObj = obj;
-        }
-        Debug.Log("C");
+        newObj.GetProperty<Common>().position = position;
+
+        game.objDic.Add(newObj.id, newObj);
+        return newObj;
     }
-    void UnloadObj(Guid objId)
-    {
-        Debug.Log($"Unload: {objId}");
-        if (!objDic.ContainsKey(objId)) return;
-        Destroy(objDic[objId]);
-        objDic.Remove(objId);
-        if (gameData.playerObjId == objId) playerObj = null;
-    }
+    public void DestroyObj() { }
 
     //util
-    Vector2Int ConvertWorldPosToChunkIdx(Vector2 worldPos)
-    {
-        return new Vector2Int(Mathf.FloorToInt(worldPos.x / chunkSize.x), Mathf.FloorToInt(worldPos.y / chunkSize.y));
-    }
+    public Vector2Int ConvertWorldPosToChunkIdx(Vector2Int worldPos)
+    => new Vector2Int(
+        Mathf.FloorToInt(worldPos.x / setting.chunkSize.x),
+        Mathf.FloorToInt(worldPos.y / setting.chunkSize.y)
+    );
+    public Vector2Int ConvertWorldPosToChunkIdx(Vector2 worldPos)
+    => new Vector2Int(
+        Mathf.FloorToInt(worldPos.x / setting.chunkSize.x),
+        Mathf.FloorToInt(worldPos.y / setting.chunkSize.y)
+    );
+    public Obj GetObj(Guid objId) => game.objDic[objId];
 }
 
-public class SettingData
+public class Setting
 {
     public Vector2Int chunkSize { get; set; }
     public int seamlessRange { get; set; }//min:1
     public int audioVolume { get; set; }
 }
-public class GameData
+public class Game
 {
-    public Dictionary<Guid, MapData> mapDic { get; set; }
-    public Dictionary<Guid, ObjData> objDic { get; set; }
+    public Dictionary<Guid, Map> mapDic { get; set; }
+    public Dictionary<Guid, Obj> objDic { get; set; }
     public Guid playerObjId { get; set; }
     public Position camPos { get; set; }
+    [JsonIgnore] public Obj playerObj { get => objDic[playerObjId]; }
 }
-public class MapData
+public class Map
 {
     public Vector2Int size { get; set; }
     public int[][] terrainLayer { get; set; }
     public List<Guid>[][] objLayer { get; set; }
-    public bool[][] colliderLayer { get; set; }
+    public int[][] colliderLayer { get; set; }
 }
-public class ObjData
+[JsonObject(MemberSerialization.OptIn)]
+public class Obj
 {
-    public CommonData common { get; set; }
-    public Dictionary<string, PropertyData> propertyDic { get; set; }
+    [JsonProperty] Guid _id { get; set; }
+    [JsonProperty] Dictionary<string, Property> propertyDic { get; set; }
+    public static Obj Create(params Property[] propertyArr)
+    {
+        Obj obj = new Obj();
+        obj._id = default(Guid);
+        obj.propertyDic = new Dictionary<string, Property>();
+        foreach (var property in propertyArr)
+        {
+            obj.AddProperty(property);
+        }
+        return obj;
+    }
+    public Guid id
+    {
+        get => _id;
+        set
+        {
+            if (_id != default(Guid)) return;
+            _id = value;
+        }
+    }
+    GameObject _go;
+    public GameObject go { get => _go; }
+    public bool AddProperty(Property property)
+    {
+        //Todo: 프로퍼티들에 프로퍼티가 추가된다는 이벤트를 발생시킴, 그에따라 추가 가능여부를 결정
+        property.obj = this;
+        if (property.obj != this) return false;
+        propertyDic.Add(property.GetType().ToString(), property);
+        return true;
+    }
+    public bool RemoveProperty(Property property)
+    {
+        //Todo: 프로퍼티들에 프로퍼티가 제거된다는 이벤트를 발생시킴, 그에따라 제거 가능여부를 결정
+        if (!propertyDic.Remove(property.GetType().ToString())) return false;
+        return true;
+    }
+    public T GetProperty<T>() where T : Property
+    {
+        string propertyName = typeof(T).ToString();
+        Property property = null;
+        propertyDic.TryGetValue(propertyName, out property);
+        return (T)property;
+    }
+    public Property[] GetPropertyArr() => propertyDic.Values.ToArray();
+    public void SetPropertyObjId()
+    {
+        foreach (var property in propertyDic.Values)
+        {
+            property.obj = this;
+        }
+    }
+    public void LoadGo()
+    {
+        Debug.Log("Load go: " + id);
+        if (_go != null) return;
+        _go = new GameObject();
+        foreach (var property in propertyDic.Values)
+        {
+            property.OnLoadGo();
+        }
+        if (id == GameManager.instance.game.playerObjId) GameManager.instance.playerGo = _go;
+    }
+    public void UnloadGo()
+    {
+        Debug.Log("Unload go: " + id);
+        if (_go == null) return;
+        UnityEngine.Object.Destroy(_go);
+        _go = null;
+    }
 }
 public struct Position
 {
@@ -485,28 +481,20 @@ public struct Position
         if (!(obj is Position)) return false;
         Position position = (Position)obj;
         if (this.mapId == position.mapId
-        & this.x == position.x
-        & this.y == position.y) return true;
+        && this.x == position.x
+        && this.y == position.y) return true;
         return false;
     }
     public override int GetHashCode() => (mapId, x, y).GetHashCode();
     public static bool operator ==(Position a, Position b) => a.Equals(b);
     public static bool operator !=(Position a, Position b) => !(a == b);
 }
-//캐릭터이동->맵로딩->카메라이동
-//캐릭터가 먼저 다음맵에 가있고, 맵이 로딩되고나서, 카메라가 뒤이어 도착
-//맵의 로딩은 mapId또는 mapData를 인수로 전달
-//맵의 로딩이 끝나면 gameData.objDic[playerObjId].common.position으로 카메라이동
 
-//맵도 프로토타입있어야함
-//맵과 오브젝트의 관계는 독립적? obj id는 월드전체에서 유니크해야함
-//맵A 맵B가 있는데, 맵B가 사라지면 맵B에 있던 obj들은 어떻게되나? 맵안에 오브젝트가 종속되어있는 느낌->같이 삭제됨
-//프로토타입 맵에는 오브젝트가 배치되어있는데, 이 옵젝들은 프로토타입옵젝인가? 하나의 세트라면 프로토타입?
-//근데 맵에 똑같은종류의 옵젝이 두개 배치돼있으면 프로토타입옵젝이 두개가 있다는말인데 뭔가 안맞음
-//그럼결국 프로토타입맵에 배치된 옵젝은?
-//"프로토타입" 이라는개념을 그냥 일반의 그것과 합쳐버리는게 맞을까?
-//ㄴ>이랬을때 문제점: 프로토타입의 역할을 해야하는 옵젝은 비활성화된채 어느곳에도 존재하지 않아야함
-
-//그 개발자가 미리만들어두는 "프로토타입맵"에는 개발자가 미리 옵젝도 배치해둘수있잖아 ㅇㅇ
-//그 옵젝들도 수치가 약간씩 다를수있고 그렇다면?
-//그냥 싹다 일반옵젝 일반맵으로 만들어봄
+public static class MapExtension
+{
+    public static T Get<T>(this T[][] map, Vector2Int coord) => map[coord.x][coord.y];
+    public static void Set<T>(this T[][] map, Vector2Int coord, T value)
+    {
+        map[coord.x][coord.y] = value;
+    }
+}

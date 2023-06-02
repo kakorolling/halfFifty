@@ -7,30 +7,36 @@ using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
 
-[RequireComponent(typeof(Common))]
-public abstract class Property : MonoBehaviour
+[JsonConverter(typeof(PropertyConverter))]
+public abstract class Property
 {
-    public abstract void SetData(PropertyData propertyData);
-    public Common common;
-    void Awake()
+    public abstract string type { get; set; }
+    [JsonProperty] internal Guid _objId { get; set; }
+    Obj _obj;
+    public Obj obj
     {
-        common = GetComponent<Common>();
+        get
+        {
+            if (_obj == null) _obj = GameManager.instance.GetObj(_objId);
+            return _obj;
+        }
+        set
+        {
+            _objId = value.id;
+            _obj = value;
+        }
     }
+    public GameObject go { get => obj.go; }
+    public abstract void OnLoadGo();
 }
 
-[JsonConverter(typeof(PropertyDataConverter))]
-public abstract class PropertyData
-{
-    public string type { get; set; }
-}
-
-public class PropertyDataConverter : JsonConverter
+public class PropertyConverter : JsonConverter
 {
     static JsonSerializerSettings jss = new JsonSerializerSettings()
     {
-        ContractResolver = new PropertyDataSpecifiedConcreteClassConverter()
+        ContractResolver = new PropertySpecifiedConcreteClassConverter()
     };
-    public override bool CanConvert(Type objectType) => (objectType == typeof(PropertyData));
+    public override bool CanConvert(Type objectType) => (objectType == typeof(Property));
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
         JObject jObject = JObject.Load(reader);
@@ -48,11 +54,11 @@ public class PropertyDataConverter : JsonConverter
     }
 }
 
-public class PropertyDataSpecifiedConcreteClassConverter : DefaultContractResolver
+public class PropertySpecifiedConcreteClassConverter : DefaultContractResolver
 {
     protected override JsonConverter ResolveContractConverter(Type objectType)
     {
-        if (typeof(PropertyData).IsAssignableFrom(objectType) && !objectType.IsAbstract)
+        if (typeof(Property).IsAssignableFrom(objectType) && !objectType.IsAbstract)
             return null;
         return base.ResolveContractConverter(objectType);
     }

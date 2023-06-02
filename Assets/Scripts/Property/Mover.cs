@@ -2,19 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Dynamic;
 using Newtonsoft.Json;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class Mover : Property
 {
     static readonly float sqrt2 = Mathf.Sqrt(2);
 
-    MoverData data;
-    public override void SetData(PropertyData propertyData) { data = (MoverData)propertyData; }
-
+    static string _type = typeof(Mover).ToString();
+    [JsonProperty] public override string type { get => _type; set { } }
+    [JsonProperty] float _speed { get; set; }
+    public static Property Create(float speed)
+    {
+        Mover mover = new Mover();
+        mover._speed = speed;
+        return mover;
+    }
     public float speed//meter per sec
     {
-        get => data.speed;
+        get => _speed;
     }
 
     Vector2Int direction;
@@ -25,7 +31,7 @@ public class Mover : Property
         while (isMoving)
         {
             onMoved?.Invoke();
-            common.position += direction;
+            obj.GetProperty<Common>().position += direction;
             yield return new WaitForSeconds(1 / (2 * speed));
         }
         coMove = null;
@@ -34,20 +40,19 @@ public class Mover : Property
     public void StartMove(Vector2Int direction)
     {
         Debug.Log("움직입니다");
-        this.direction = direction;
-        isMoving = true;
-        if (coMove != null) return;
-        coMove = StartCoroutine(Move());
+        obj.GetProperty<Common>().position += direction;
+        // Debug.Log("움직입니다");
+        // this.direction = direction;
+        // isMoving = true;
+        // if (coMove != null) return;
+        // coMove = StartCoroutine(Move()); // Todo: unity life cycle이 아닌, 커스텀 틱시스템에서 작동하는 coroutine 작성
     }
     public void StopMove()
     {
         isMoving = false;
     }
 
-    public Action onMoved;
-}
+    public override void OnLoadGo() { }
 
-public class MoverData : PropertyData
-{
-    public float speed { get; set; }
+    public Action onMoved;
 }

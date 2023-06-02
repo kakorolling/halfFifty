@@ -1,37 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Dynamic;
+using System;
 using Newtonsoft.Json;
 
-[RequireComponent(typeof(SpriteRenderer))]
+[JsonObject(MemberSerialization.OptIn)]
 public class Graphic : Property
 {
-    GraphicData data;
-    Animation animManager;
-    public override void SetData(PropertyData propertyData) { data = (GraphicData)propertyData; }
-
+    static string _type = typeof(Graphic).ToString();
+    [JsonProperty] public override string type { get => _type; set { } }
+    [JsonProperty] string _spriteId { get; set; }
+    public static Graphic Create(string spriteId)
+    {
+        Graphic graphic = new Graphic();
+        graphic._spriteId = spriteId;
+        return graphic;
+    }
     public string spriteId
     {
-        get => data.spriteId;
+        get => _spriteId;
     }
 
     SpriteRenderer sR;
-
-    void Start()
-    {
-        sR = GetComponent<SpriteRenderer>();
-        sR.sprite = ResourceManager.instance.spriteDic[spriteId];
-    }
+    Animation animManager;
 
     void addAnimation()
     {
 
     }
 
-
-}
-public class GraphicData : PropertyData
-{
-    public string spriteId { get; set; }
+    public override void OnLoadGo()
+    {
+        sR = go.AddComponent<SpriteRenderer>();
+        sR.sprite = ResourceManager.instance.spriteDic[spriteId];
+    }
 }

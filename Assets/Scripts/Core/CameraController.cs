@@ -23,13 +23,13 @@ public class CameraController : MonoBehaviour
         {
             if (targetTf == null)
             {
-                GameObject playerObj = GameManager.instance.playerObj;
-                if (playerObj == null)
+                GameObject playerGo = GameManager.instance.playerGo;
+                if (playerGo == null)
                 {
                     yield return null;
                     continue;
                 }
-                targetTf = playerObj.transform;
+                targetTf = playerGo.transform;
             }
             transform.position = new Vector3(0, 0, -10) + (Vector3)Vector2.Lerp(transform.position, targetTf.position, 0.01f);
             yield return null;
