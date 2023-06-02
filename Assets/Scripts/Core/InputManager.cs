@@ -8,12 +8,12 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         Vector2Int delta = Vector2Int.zero;
-        if (Input.GetKey(KeyCode.W)) delta.y++;
-        if (Input.GetKey(KeyCode.A)) delta.x--;
-        if (Input.GetKey(KeyCode.S)) delta.y--;
-        if (Input.GetKey(KeyCode.D)) delta.x++;
-        if (delta == Vector2Int.zero) (GameManager.instance.playerObj)?.GetComponent<Mover>()?.StopMove();
-        else (GameManager.instance.playerObj)?.GetComponent<Mover>()?.StartMove(delta);
+        if (Input.GetKeyDown(KeyCode.W)) delta.y++;
+        if (Input.GetKeyDown(KeyCode.A)) delta.x--;
+        if (Input.GetKeyDown(KeyCode.S)) delta.y--;
+        if (Input.GetKeyDown(KeyCode.D)) delta.x++;
+        if (delta == Vector2Int.zero) GameManager.instance.game.playerObj.GetProperty<Mover>()?.StopMove();
+        else GameManager.instance.game.playerObj.GetProperty<Mover>()?.StartMove(delta);
 
         // //퀵슬롯은 휠과 1~8까지
 

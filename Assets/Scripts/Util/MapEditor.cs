@@ -17,11 +17,11 @@ public class MapEditor : MonoBehaviour
         instance = this;//이 클래스 인스턴스가 탄생했을 때 전역변수 instance에 게임매니저 인스턴스가 담겨있지 않다면, 자신을 넣어준다.
         DontDestroyOnLoad(gameObject); //씬 전환이 되더라도 파괴되지 않게 한다.
     }
-    Dictionary<Guid, MapData> mapDic;
+    Dictionary<Guid, Map> mapDic;
     public Transform terrainsPnlTf;
     public GameObject terrainPf;
 
-    public void Init(Dictionary<Guid, MapData> mapDic)
+    public void Init(Dictionary<Guid, Map> mapDic)
     {
         this.mapDic = mapDic;
         LoadMapNameDic();
@@ -138,28 +138,44 @@ public class MapEditor : MonoBehaviour
 
     private void DrawPoint(Vector2Int point)
     {
-        GameManager.instance.EditTerrainLayer(new Position(mapId, point), selectedTerrain);
+        GameManager.instance.game.mapDic[mapId].terrainLayer.Set(point, selectedTerrain);
+        Vector2Int chunkIdx = GameManager.instance.ConvertWorldPosToChunkIdx(point);
+        GameManager.instance.UpdateChunk(chunkIdx);
     }
     private void DrawLine(Vector2Int startPoint, Vector2Int endPoint)
     {
+        HashSet<Vector2Int> chunkIdxSet = new HashSet<Vector2Int>();
+
         var line = new Bresenham(startPoint, endPoint);
         foreach (Vector2Int point in line)
         {
-            GameManager.instance.EditTerrainLayer(new Position(mapId, point), selectedTerrain);
+            GameManager.instance.game.mapDic[mapId].terrainLayer.Set(point, selectedTerrain);
+            chunkIdxSet.Add(GameManager.instance.ConvertWorldPosToChunkIdx(point));
         }
-        //직선거리 구하는 알고리즘 사용
-        //타일 수정->데이터 업로드
+
+        foreach (var chunkIdx in chunkIdxSet)
+        {
+            GameManager.instance.UpdateChunk(chunkIdx);
+        }
     }
     private void DrawRectangle(Vector2Int startPoint, Vector2Int endPoint)
     {
+        HashSet<Vector2Int> chunkIdxSet = new HashSet<Vector2Int>();
+
         Vector2Int pointA = new Vector2Int(Mathf.Min(startPoint.x, endPoint.x), Mathf.Min(startPoint.y, endPoint.y));
         Vector2Int pointB = new Vector2Int(Mathf.Max(startPoint.x, endPoint.x), Mathf.Max(startPoint.y, endPoint.y));
         for (int x = pointA.x; x <= pointB.x; x++)
         {
             for (int y = pointA.y; y <= pointB.y; y++)
             {
-                GameManager.instance.EditTerrainLayer(new Position(mapId, x, y), selectedTerrain);
+                GameManager.instance.game.mapDic[mapId].terrainLayer.Set(new Vector2Int(x, y), selectedTerrain);
+                chunkIdxSet.Add(GameManager.instance.ConvertWorldPosToChunkIdx(new Vector2Int(x, y)));
             }
+        }
+
+        foreach (var chunkIdx in chunkIdxSet)
+        {
+            GameManager.instance.UpdateChunk(chunkIdx);
         }
     }
 

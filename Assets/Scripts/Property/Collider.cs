@@ -2,27 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Dynamic;
 using Newtonsoft.Json;
+
+[JsonObject(MemberSerialization.OptIn)]
 public class Collider : Property
 {
-    ColliderData data;
-    public override void SetData(PropertyData propertyData) { data = (ColliderData)propertyData; }
-
+    static string _type = typeof(Collider).ToString();
+    [JsonProperty] public override string type { get => _type; set { } }
+    [JsonProperty] Vector2Int[] _pointArr { get; set; }
     public Vector2Int[] pointArr
     {
-        get => data.pointArr;
+        get => _pointArr;
     }
+
+    public override void OnLoadGo() { }
 
     public Action onCollisionEnter;
     public Action onCollisionStay;
     public Action onCollisionExit;
 }
-
-public class ColliderData : PropertyData
-{
-    public Vector2Int[] pointArr { get; set; }
-}
-
-
-
