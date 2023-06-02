@@ -7,7 +7,6 @@ public class InventoryOpenAndClose : MonoBehaviour
 {
     public GameObject inventoryPanel;
     bool activelInventory = false;
-    InventoryManager inventoryManager = new InventoryManager();
     
     private void Start(){
         inventoryPanel.SetActive(activelInventory);
@@ -18,8 +17,9 @@ public class InventoryOpenAndClose : MonoBehaviour
         {
             activelInventory = !activelInventory;
             inventoryPanel.SetActive(activelInventory);
+
+            InventoryManager.ShowItem();
         }
         
-        inventoryManager.ShowItem();
     }
 }

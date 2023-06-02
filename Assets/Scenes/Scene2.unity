@@ -4489,6 +4489,7 @@ GameObject:
   - component: {fileID: 1798542999}
   - component: {fileID: 1798542998}
   - component: {fileID: 1798542997}
+  - component: {fileID: 1798543001}
   m_Layer: 5
   m_Name: Crafting table
   m_TagString: Untagged
@@ -4577,6 +4578,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1798543001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798542996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 249077c75214a984489492284e30f98d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CraftingTable: {fileID: 1798542996}
 --- !u!1 &1814029916
 GameObject:
   m_ObjectHideFlags: 0

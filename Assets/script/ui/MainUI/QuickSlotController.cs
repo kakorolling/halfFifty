@@ -21,10 +21,11 @@ public class QuickSlotController : MonoBehaviour
     // 퀵슬롯을 눌러 사용중인 아이템
     public Item Usingitem;
 
+    [SerializeField] private GameObject QuickSlotContainer;
     
     void Start()
     {
-        quickSlots = tfParent.GetComponentsInChildren<Slot>();
+        //quickSlots = tfParent.GetComponentsInChildren<Slot>();
         //selectedSlot = 0;
 
         Usingitem = new Item("", 0, "", "");
@@ -56,7 +57,7 @@ public class QuickSlotController : MonoBehaviour
             //ChangeSlot(0);
             //Debug.Log("1 동작 확인");
 
-            SelectedQuickSlot = GameObject.Find("QuickSlot1");
+            SelectedQuickSlot = GameObject.Find("Slot0");
             SelectedQuickSlotItemImage = SelectedQuickSlot.transform.GetChild(0).GetComponent<Image>();
             
             if(!(SelectedQuickSlotItemImage.sprite.name == "Transparent"))
@@ -66,7 +67,6 @@ public class QuickSlotController : MonoBehaviour
                     if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
                     {
                         Usingitem = ItemInInventory;
-                        Debug.Log(Usingitem.GetItemType());
                     }
                 }
             }
@@ -74,6 +74,8 @@ public class QuickSlotController : MonoBehaviour
             {
                 Usingitem = new Item("", 0, "", "");
             }
+
+            QuickSlotContainer.GetComponent<Image>().sprite = Resources.Load<Sprite>("UIImage/Inventory/QuickSlots1");
         }
 
         else if(Input.GetKeyDown(KeyCode.Alpha2))
@@ -81,7 +83,7 @@ public class QuickSlotController : MonoBehaviour
             //ChangeSlot(1);
             //Debug.Log("2 동작 확인");
 
-            SelectedQuickSlot = GameObject.Find("QuickSlot2");
+            SelectedQuickSlot = GameObject.Find("Slot1");
             SelectedQuickSlotItemImage = SelectedQuickSlot.transform.GetChild(0).GetComponent<Image>();
             
             if(!(SelectedQuickSlotItemImage.sprite.name == "Transparent"))
@@ -91,7 +93,6 @@ public class QuickSlotController : MonoBehaviour
                     if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
                     {
                         Usingitem = ItemInInventory;
-                        Debug.Log(Usingitem.GetItemType());
                     }
                 }
             }
@@ -99,6 +100,8 @@ public class QuickSlotController : MonoBehaviour
             {
                 Usingitem = new Item("", 0, "", "");
             }
+
+            QuickSlotContainer.GetComponent<Image>().sprite = Resources.Load<Sprite>("UIImage/Inventory/QuickSlots2");
 
         }
         else if(Input.GetKeyDown(KeyCode.Alpha3))
@@ -106,7 +109,7 @@ public class QuickSlotController : MonoBehaviour
             //ChangeSlot(2);
             //Debug.Log("3 동작 확인");
 
-            SelectedQuickSlot = GameObject.Find("QuickSlot3");
+            SelectedQuickSlot = GameObject.Find("Slot2");
             SelectedQuickSlotItemImage = SelectedQuickSlot.transform.GetChild(0).GetComponent<Image>();
             
             if(!(SelectedQuickSlotItemImage.sprite.name == "Transparent"))
@@ -116,7 +119,6 @@ public class QuickSlotController : MonoBehaviour
                     if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
                     {
                         Usingitem = ItemInInventory;
-                        Debug.Log(Usingitem.GetItemType());
                     }
                 }
             }
@@ -124,6 +126,8 @@ public class QuickSlotController : MonoBehaviour
             {
                 Usingitem = new Item("", 0, "", "");
             }
+
+            QuickSlotContainer.GetComponent<Image>().sprite = Resources.Load<Sprite>("UIImage/Inventory/QuickSlots3");
 
         }
         else if(Input.GetKeyDown(KeyCode.Alpha4))
@@ -131,7 +135,7 @@ public class QuickSlotController : MonoBehaviour
             //ChangeSlot(3);
             //Debug.Log("4 동작 확인");
 
-            SelectedQuickSlot = GameObject.Find("QuickSlot4");
+            SelectedQuickSlot = GameObject.Find("Slot3");
             SelectedQuickSlotItemImage = SelectedQuickSlot.transform.GetChild(0).GetComponent<Image>();
             
             if(!(SelectedQuickSlotItemImage.sprite.name == "Transparent"))
@@ -141,7 +145,6 @@ public class QuickSlotController : MonoBehaviour
                     if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
                     {
                         Usingitem = ItemInInventory;
-                        Debug.Log(Usingitem.GetItemType());
                     }
                 }
             }
@@ -150,13 +153,15 @@ public class QuickSlotController : MonoBehaviour
                 Usingitem = new Item("", 0, "", "");
             }
             
+            QuickSlotContainer.GetComponent<Image>().sprite = Resources.Load<Sprite>("UIImage/Inventory/QuickSlots4");
+
         }
         else if(Input.GetKeyDown(KeyCode.Alpha5))
         {
             //ChangeSlot(4);
             //Debug.Log("5 동작 확인");
 
-            SelectedQuickSlot = GameObject.Find("QuickSlot5");
+            SelectedQuickSlot = GameObject.Find("Slot4");
             SelectedQuickSlotItemImage = SelectedQuickSlot.transform.GetChild(0).GetComponent<Image>();
             
             if(!(SelectedQuickSlotItemImage.sprite.name == "Transparent"))
@@ -166,7 +171,6 @@ public class QuickSlotController : MonoBehaviour
                     if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
                     {
                         Usingitem = ItemInInventory;
-                        Debug.Log(Usingitem.GetItemType());
                     }
                 }
             }
@@ -174,6 +178,8 @@ public class QuickSlotController : MonoBehaviour
             {
                 Usingitem = new Item("", 0, "", "");
             }
+
+            QuickSlotContainer.GetComponent<Image>().sprite = Resources.Load<Sprite>("UIImage/Inventory/QuickSlots5");
 
         }
         else if(Input.GetKeyDown(KeyCode.Alpha6))
@@ -181,7 +187,7 @@ public class QuickSlotController : MonoBehaviour
             //ChangeSlot(5);
             //Debug.Log("6 동작 확인");
 
-            SelectedQuickSlot = GameObject.Find("QuickSlot6");
+            SelectedQuickSlot = GameObject.Find("Slot5");
             SelectedQuickSlotItemImage = SelectedQuickSlot.transform.GetChild(0).GetComponent<Image>();
             
             if(!(SelectedQuickSlotItemImage.sprite.name == "Transparent"))
@@ -191,7 +197,6 @@ public class QuickSlotController : MonoBehaviour
                     if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
                     {
                         Usingitem = ItemInInventory;
-                        Debug.Log(Usingitem.GetItemType());
                     }
                 }
             }
@@ -199,6 +204,8 @@ public class QuickSlotController : MonoBehaviour
             {
                 Usingitem = new Item("", 0, "", "");
             }
+
+            QuickSlotContainer.GetComponent<Image>().sprite = Resources.Load<Sprite>("UIImage/Inventory/QuickSlots6");
 
         }
         else if(Input.GetKeyDown(KeyCode.Alpha7))
@@ -206,7 +213,7 @@ public class QuickSlotController : MonoBehaviour
             //ChangeSlot(6);
             //Debug.Log("7 동작 확인");
 
-            SelectedQuickSlot = GameObject.Find("QuickSlot7");
+            SelectedQuickSlot = GameObject.Find("Slot6");
             SelectedQuickSlotItemImage = SelectedQuickSlot.transform.GetChild(0).GetComponent<Image>();
             
             if(!(SelectedQuickSlotItemImage.sprite.name == "Transparent"))
@@ -216,7 +223,6 @@ public class QuickSlotController : MonoBehaviour
                     if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
                     {
                         Usingitem = ItemInInventory;
-                        Debug.Log(Usingitem.GetItemType());
                     }
                 }
             }
@@ -224,6 +230,8 @@ public class QuickSlotController : MonoBehaviour
             {
                 Usingitem = new Item("", 0, "", "");
             }
+
+            QuickSlotContainer.GetComponent<Image>().sprite = Resources.Load<Sprite>("UIImage/Inventory/QuickSlots7");
         }
     }
 

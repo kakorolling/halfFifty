@@ -19,6 +19,9 @@ public class Item
     //아이템의 종류
     private string itemType;
 
+    //아이템이 인벤토리에 위치하는 슬롯 번호
+    private int itemSlotNumber;
+
     //이외에도 내구도와 같은 프로퍼티를 여기에 추가로 생성가능
 
     //생성자 (아이템을 new로 생성할때 new Item(itemName, 1, itemImage.sprite.name) 이런식으로 생성 가능)
@@ -85,5 +88,15 @@ public class Item
     public void SetItemType(string newitemType)
     {
         itemType = newitemType;
+    }
+
+    public int GetSlotNumber()
+    {
+        return itemSlotNumber;
+    }
+    //아이템의 종류 지정할때 사용
+    public void SetSlotNumber(int newitemSlotNumber)
+    {
+        itemSlotNumber = newitemSlotNumber;
     }
 }

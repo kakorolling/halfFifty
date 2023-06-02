@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class InventoryManager
 {
     // 인벤토리 슬롯들의 배열
-    public GameObject[] slots;
+   
 
     // 인벤토리에 보일 아이템의 배열
     public static List<Item> inventoryItems = new List<Item>();
-    private const int INVENTORY_SIZE = 48;
+    private const int INVENTORY_SIZE = 56;
     
     public static void AddItem(Item item)
     {
@@ -28,11 +28,37 @@ public class InventoryManager
             if(ItemInInventory.GetName() == item.GetName())
             {
                 ItemInInventory.SetAmount(ItemInInventory.GetAmount() + item.GetAmount());
+                ShowItem();
                 return;
             }
         }
+       
+        // 아이템이 빈 슬롯에 찾아 들어가는 로직 Made By 용준
+        for(int i = 0; i < INVENTORY_SIZE; i++)
+        {
+            bool flag = true;
+
+            for(int j = 0; j < inventoryItems.Count; j++)
+            {
+                
+                if(i == inventoryItems[j].GetSlotNumber())
+                {
+                    flag = false;
+                    break;
+                }
+                
+            }
+            
+            if(flag)
+            {
+                item.SetSlotNumber(i);
+                break;
+            }
+        }
+
         // inventoryItems 배열에 아이템 추가
         inventoryItems.Add(item);
+        ShowItem();
         //Debug.Log(item.GetItemType());
     
         //인벤토리 사이즈 초과시 아이템 더 획득 안되게하는 기능 추가 필요
@@ -67,6 +93,7 @@ public class InventoryManager
                 }
             }
         }
+        ShowItem();
     }
 
 
@@ -85,18 +112,27 @@ public class InventoryManager
                 }
             }
         }
+        ShowItem();
     }
 
 
     
 
-    public void ShowItem()
+    public static void ShowItem()
     {
         // Slot 오브젝트를 찾아서 slots 배열에 할당
-        slots = GameObject.FindGameObjectsWithTag("Slot");
+        GameObject[] slots = GameObject.FindGameObjectsWithTag("Slot");
+        
+        //인벤토리가 안켜져있을때 에러방지
+        if(slots.Length == 0)
+        {
+            return;
+        }
         
         for (int i = 0; i < inventoryItems.Count; i++)
         {
+            //Debug.Log(i);
+            //Debug.Log(inventoryItems.Count);
             if((inventoryItems[i] == null) || (inventoryItems[i].GetAmount() == 0))
             {
                 continue;
@@ -106,13 +142,15 @@ public class InventoryManager
             string itemName = inventoryItems[i].GetName();
             int itemAmount = inventoryItems[i].GetAmount();
             string itemImage = inventoryItems[i].GetImageName();
+            int itemSlotNumber = inventoryItems[i].GetSlotNumber();
+            
 
             // 할당된 정보로 슬롯의 이미지 설정
-            Image slotImage = slots[i].transform.GetChild(0).GetComponent<Image>();
+            Image slotImage = slots[itemSlotNumber].transform.GetChild(0).GetComponent<Image>();
             slotImage.sprite = Resources.Load<Sprite>("UIImage/CommonUIImage/" + itemImage);
 
             // 할당된 정보로 슬롯의 갯수 텍스트 설정
-            Text slotText =  slots[i].transform.GetChild(1).GetComponent<Text>();
+            Text slotText =  slots[itemSlotNumber].transform.GetChild(1).GetComponent<Text>();
             slotText.text = itemAmount.ToString();
             //Debug.Log(slotText.text);
 

@@ -17,6 +17,10 @@ public class SamplePlayerController : MonoBehaviour
     private StatusController theStatusController;
 
     private bool isRun = false;
+
+    // 충돌 감지
+    private Rigidbody2D rb;
+
     private Animator animator;
     string animationState = "AnimationState";
 
@@ -24,7 +28,12 @@ public class SamplePlayerController : MonoBehaviour
     private QuickSlotController QuickSlotController;
 
     public GameObject PlayerSample;
+
+    private Logging LoggingManager;
+
+    private float animationDuration;
    
+    Item Usingitem;
     
     enum FarmerBasicStates
     {
@@ -44,6 +53,23 @@ public class SamplePlayerController : MonoBehaviour
         right = 9
     }
 
+    enum FarmerFishingRodStates
+    {
+        idle = 10,
+        up = 11,
+        down = 12,
+        left = 13,
+        right = 14
+    }
+
+    enum FarmerLoggingStates
+    {
+        left = 15,
+        right = 16
+    }
+
+    // animationStates 15 ~ 16 is in Logging.cs
+
 
     private void Start()
     {
@@ -54,6 +80,7 @@ public class SamplePlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         QuickSlotController = FindObjectOfType<QuickSlotController>();
+        LoggingManager = FindObjectOfType<Logging>();
         
         
     }
@@ -61,8 +88,9 @@ public class SamplePlayerController : MonoBehaviour
     private void Update()
     {
         TryRun();
-        Move();
+        MoveAndChangeAnimation();
 
+        this.Usingitem = QuickSlotController.Usingitem;
         
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
@@ -72,7 +100,26 @@ public class SamplePlayerController : MonoBehaviour
         {
             animator.speed = 0f;
         }
-    
+
+        if(Usingitem.GetName() == "" || Usingitem.GetName() == "나무 도끼")
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {   
+                animationDuration = 3f;
+                StartCoroutine(PlayAnimationWithDelay(animationDuration));
+                LoggingManager.TryStartLogging();
+            }
+        }
+        
+        
+    }
+
+    private IEnumerator PlayAnimationWithDelay(float delay)
+    {
+        animator.SetInteger(animationState, (int)FarmerLoggingStates.left);
+        yield return new WaitForSeconds(delay);
+        // 애니메이션 종료 후에 실행할 동작
+        LoggingManager.TryStartLogging();
     }
 
     private void Running()
@@ -100,20 +147,24 @@ public class SamplePlayerController : MonoBehaviour
         }
     }
 
-    private void Move()
+    private void MoveAndChangeAnimation()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
         Vector2 movement = new Vector2(moveX, moveY);
         transform.Translate(movement * applySpeed * Time.deltaTime);
-        Item Usingitem = QuickSlotController.Usingitem;
-        Debug.Log(Usingitem.GetImageName());
-        Debug.Log(PlayerSample.GetComponent<SpriteRenderer>().sprite);
-        
+
+        this.Usingitem = QuickSlotController.Usingitem;
+       
         // 기본 농부
         if(Usingitem.GetName() == "")
         {
+            animator.enabled = false;
+            PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Farmer_Basic/Farmer_Basic_Basic");
+            animator.SetInteger(animationState, (int)FarmerBasicStates.idle);
+            animator.enabled = true;
+
             if (moveX > 0)
             {
                 animator.SetInteger(animationState, (int)FarmerBasicStates.right);
@@ -142,7 +193,7 @@ public class SamplePlayerController : MonoBehaviour
         else if(Usingitem.GetImageName() == "WoodAxe")
         {
             animator.enabled = false;
-            PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("sprite/PlayerImage/Farmer_WoodAxe/Farmer_WoodAxe_Basic");
+            PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Farmer_WoodAxe/Farmer_WoodAxe_Basic");
             animator.SetInteger(animationState, (int)FarmerWoodAxeStates.idle);
             animator.enabled = true;
             
@@ -167,8 +218,37 @@ public class SamplePlayerController : MonoBehaviour
             
             
         }
+
+        else if(Usingitem.GetImageName() == "FishingRod")
+        {
+            animator.enabled = false;
+            PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Farmer_FishingRod/Farmer_FishingRod_Basic");
+            animator.SetInteger(animationState, (int)FarmerFishingRodStates.idle);
+            animator.enabled = true;
+            
+            
+            if (moveX > 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerFishingRodStates.right);
+            }
+            else if (moveX < 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerFishingRodStates.left);
+            }
+            else if (moveY > 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerFishingRodStates.up);
+            }
+            else if (moveY < 0)
+            {
+                animator.SetInteger(animationState, (int)FarmerFishingRodStates.down);
+            }
+           
+            
+            
+        }
         
-    }   
+    }
             
     
 }

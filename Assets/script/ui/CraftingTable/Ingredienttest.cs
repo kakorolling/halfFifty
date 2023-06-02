@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Ingredienttest : MonoBehaviour
 {
+   
     public void ConfirmButtonClick()
     {
         
@@ -12,9 +13,8 @@ public class Ingredienttest : MonoBehaviour
         InventoryManager.AddItem(new Item("바나나", 1, "banana1", "음식"));
         InventoryManager.AddItem(new Item("바나나2", 1, "banana2", "음식"));
         InventoryManager.AddItem(new Item("나무 도끼", 1, "WoodAxe", "도구"));
-        
-        
+        InventoryManager.AddItem(new Item("나무 낚싯대", 1, "FishingRod", "도구"));
 
-
+     
     }
 }
