@@ -10,6 +10,7 @@ TagManager:
   - tree
   - Tree
   - Rock
+  - river
   layers:
   - Default
   - TransparentFX
