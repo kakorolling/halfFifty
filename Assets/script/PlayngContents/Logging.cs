@@ -18,6 +18,8 @@ public class Logging : MonoBehaviour
     private Animator animator;
     string animationState = "AnimationState";
 
+    public bool isLogging = false; 
+
     enum FarmerLoggingStates
     {
         left = 15,
@@ -26,6 +28,8 @@ public class Logging : MonoBehaviour
 
     public void TryStartLogging()
     {
+        GetComponent<SamplePlayerController>().enabled = false;
+        
         //주변에 콜라이더 오브젝트 탐색
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 3f);
        
@@ -34,8 +38,7 @@ public class Logging : MonoBehaviour
             Debug.Log("good");
             
             animator = GetComponent<Animator>();
-            GetComponent<SamplePlayerController>().enabled = false;
-
+            
             // 탐색된 콜라이더 오브젝트의 태그가 tree인지 확인
             if (collider.CompareTag("Tree"))
             {
@@ -54,6 +57,11 @@ public class Logging : MonoBehaviour
                 StartCoroutine(Loggingstart());
                 break;
             }
+            else
+            {
+                GetComponent<SamplePlayerController>().enabled = true;
+                return;
+            }
         }
             
     }
@@ -62,7 +70,7 @@ public class Logging : MonoBehaviour
     //벌목이 ~초후에 완료되게 하는 함수
     private IEnumerator Loggingstart()
     {
-        
+        isLogging = true; 
         yield return new WaitForSeconds(LoggingDuration);
         FinishLogging();
     }
@@ -124,6 +132,7 @@ public class Logging : MonoBehaviour
                 currentTreeCollider = null;
             }
         }
-            
+
+        isLogging = false; 
     }
 }

@@ -30,6 +30,10 @@ public class SamplePlayerController : MonoBehaviour
     public GameObject PlayerSample;
 
     private Logging LoggingManager;
+    bool isLogging;
+
+    private Fishing FishingManager;
+    bool isFishing;
 
     private float animationDuration;
    
@@ -69,6 +73,7 @@ public class SamplePlayerController : MonoBehaviour
     }
 
     // animationStates 15 ~ 16 is in Logging.cs
+    // animationStates 17 ~ 20 is in Fishing.cs
 
 
     private void Start()
@@ -81,6 +86,8 @@ public class SamplePlayerController : MonoBehaviour
 
         QuickSlotController = FindObjectOfType<QuickSlotController>();
         LoggingManager = FindObjectOfType<Logging>();
+        FishingManager = FindObjectOfType<Fishing>();
+        
         
         
     }
@@ -103,10 +110,22 @@ public class SamplePlayerController : MonoBehaviour
 
         if(Usingitem.GetName() == "" || Usingitem.GetName() == "나무 도끼")
         {
-            if(Input.GetKeyDown(KeyCode.F))
+            isLogging = LoggingManager.isLogging;
+            if(Input.GetKeyDown(KeyCode.F) && !isLogging)
             {   
                 Debug.Log("goood");
                 LoggingManager.TryStartLogging();
+                
+            }
+        }
+
+        if(Usingitem.GetName() == "나무 낚싯대")
+        {
+            isFishing = FishingManager.isFishing;
+            if(Input.GetKeyDown(KeyCode.F) && !isFishing)
+            {   
+                Debug.Log("FISHING");
+                FishingManager.TryStartFishing();
                 
             }
         }
