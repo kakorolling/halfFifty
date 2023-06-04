@@ -77,6 +77,7 @@ public class CraftingTableConfirmManager : MonoBehaviour
                 InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, ""));
                 InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount2), itemIngredientImage2.sprite.name, ""));
                 InventoryManager.AddItem(new Item(itemName, 1, itemImage.sprite.name, itemType));
+                Debug.Log(itemImage.sprite.name);
                 ConfirmImageText.GetComponent<Text>().text = "제작되었습니다.";
             }
             else

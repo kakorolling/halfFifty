@@ -8,6 +8,7 @@ public class Logging : MonoBehaviour
     public float LoggingDuration = 3f; 
     public GameObject TreeStumpPrefab;
     public GameObject WoodPrefab;
+    public GameObject ThreadPrefab;
     private Rigidbody2D rb;
     private Collider2D currentTreeCollider;
     
@@ -28,11 +29,11 @@ public class Logging : MonoBehaviour
 
     public void TryStartLogging()
     {
-        GetComponent<SamplePlayerController>().enabled = false;
-        
-        //주변에 콜라이더 오브젝트 탐색
         GetComponent<Collider2D>().enabled = false;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 2.5f);
+
+        //주변에 콜라이더 오브젝트 탐색
+        GetComponent<SamplePlayerController>().enabled = false;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1f);
        
         foreach (Collider2D collider in colliders)
         {
@@ -44,6 +45,7 @@ public class Logging : MonoBehaviour
                 Debug.Log("벌목을 시작합니다: " + collider.gameObject.name);
                 currentTreeCollider = collider;
                 
+
                 if(currentTreeCollider.transform.position.x < transform.position.x)
                 {
                     animator.SetInteger(animationState, (int)FarmerLoggingStates.left);
@@ -89,49 +91,106 @@ public class Logging : MonoBehaviour
         Item Usingitem = QuickSlotController.Usingitem;
         Debug.Log("벌목이 완료되었습니다.");
 
-        if(Usingitem.GetName() == "")
+        if(!(currentTreeCollider.name.Contains("Cotton")))
         {
-            if (currentTreeCollider != null)
-            {   
-                //나무 파괴
-                Destroy(currentTreeCollider.gameObject); 
+            Debug.Log("good");
+            if(Usingitem.GetName() == "")
+            {
+                Debug.Log(currentTreeCollider.name);
+                if (currentTreeCollider != null)
+                {   
+                    //나무 파괴
+                    Destroy(currentTreeCollider.gameObject); 
 
-                //나무 그루터기, 나무 아이템 생성
-                GameObject TreeStumpObject = Instantiate(TreeStumpPrefab, currentTreeCollider.transform.position, Quaternion.identity);
-                GameObject WoodObject1 = Instantiate(WoodPrefab, TreeStumpObject.transform.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity);
+                    //나무 그루터기, 나무 아이템 생성
+                    GameObject TreeStumpObject = Instantiate(TreeStumpPrefab, currentTreeCollider.transform.position, Quaternion.identity);
+                    GameObject WoodObject1 = Instantiate(WoodPrefab, TreeStumpObject.transform.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity);
 
-                //인벤토리에 나무 도막 아이템 추가
-                InventoryManager.AddItem(new Item("나무 도막", 1, "Wood", "재료"));
-                
-                //나무 아이템 3초 뒤 제거
-                StartCoroutine(DestroyAfterDelay(WoodObject1, 3f));
+                    //인벤토리에 나무 도막 아이템 추가
+                    InventoryManager.AddItem(new Item("나무 도막", 1, "Wood", "재료"));
+                    
+                    //나무 아이템 3초 뒤 제거
+                    StartCoroutine(DestroyAfterDelay(WoodObject1, 3f));
 
-                currentTreeCollider = null;
+                    currentTreeCollider = null;
+                }
             }
-        }
         
-        else if(Usingitem.GetImageName() == "WoodAxe")
-        {
-            if (currentTreeCollider != null)
-            {   
-                //나무파괴
-                Destroy(currentTreeCollider.gameObject); 
+            else if(Usingitem.GetImageName() == "WoodAxe")
+            {
+                Debug.Log(currentTreeCollider.name);
+                if (currentTreeCollider != null)
+                {   
+                    //나무파괴
+                    Destroy(currentTreeCollider.gameObject); 
 
-                //나무 그루터기, 나무 아이템 생성
-                GameObject TreeStumpObject = Instantiate(TreeStumpPrefab, currentTreeCollider.transform.position, Quaternion.identity);
-                GameObject WoodObject1 = Instantiate(WoodPrefab, TreeStumpObject.transform.position + new Vector3(-0.5f, 0.5f, 0f), Quaternion.identity);
-                GameObject WoodObject2 = Instantiate(WoodPrefab, TreeStumpObject.transform.position + new Vector3(0.5f, 0.5f, 0f), Quaternion.identity);
+                    //나무 그루터기, 나무 아이템 생성
+                    GameObject TreeStumpObject = Instantiate(TreeStumpPrefab, currentTreeCollider.transform.position, Quaternion.identity);
+                    GameObject WoodObject1 = Instantiate(WoodPrefab, TreeStumpObject.transform.position + new Vector3(-0.5f, 0.5f, 0f), Quaternion.identity);
+                    GameObject WoodObject2 = Instantiate(WoodPrefab, TreeStumpObject.transform.position + new Vector3(0.5f, 0.5f, 0f), Quaternion.identity);
 
-                //인벤토리에 나무 도막 아이템 추가
-                InventoryManager.AddItem(new Item("나무 도막", 2, "Wood", "재료"));
-                
-                //나뭇 아이템 3초 뒤 제거
-                StartCoroutine(DestroyAfterDelay(WoodObject1, 3f));
-                StartCoroutine(DestroyAfterDelay(WoodObject2, 3f));
+                    //인벤토리에 나무 도막 아이템 추가
+                    InventoryManager.AddItem(new Item("나무 도막", 2, "Wood", "재료"));
+                    
+                    //나뭇 아이템 3초 뒤 제거
+                    StartCoroutine(DestroyAfterDelay(WoodObject1, 3f));
+                    StartCoroutine(DestroyAfterDelay(WoodObject2, 3f));
 
-                currentTreeCollider = null;
+                    currentTreeCollider = null;
+                }
             }
         }
+
+        else if(currentTreeCollider.name.Contains("Cotton"))
+        {
+            if(Usingitem.GetName() == "")
+            {
+                Debug.Log(currentTreeCollider.name);
+                if (currentTreeCollider != null)
+                {   
+                    //나무 파괴
+                    Destroy(currentTreeCollider.gameObject); 
+
+                    //나무 그루터기, 실 아이템 생성
+                    GameObject TreeStumpObject = Instantiate(TreeStumpPrefab, currentTreeCollider.transform.position, Quaternion.identity);
+                    GameObject ThreadObject1 = Instantiate(ThreadPrefab, TreeStumpObject.transform.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity);
+
+                    //인벤토리에 실 아이템 추가
+                    InventoryManager.AddItem(new Item("실", 1, "Thread", "재료"));
+                    
+                    //나무 아이템 3초 뒤 제거
+                    StartCoroutine(DestroyAfterDelay(ThreadObject1, 3f));
+
+                    currentTreeCollider = null;
+                }
+            }
+        
+            else if(Usingitem.GetImageName() == "WoodAxe")
+            {
+                Debug.Log(currentTreeCollider.name);
+                if (currentTreeCollider != null)
+                {   
+                    //나무파괴
+                    Destroy(currentTreeCollider.gameObject); 
+
+                    //나무 그루터기, 나무 아이템 생성
+                    GameObject TreeStumpObject = Instantiate(TreeStumpPrefab, currentTreeCollider.transform.position, Quaternion.identity);
+                    GameObject ThreadObject1 = Instantiate(ThreadPrefab, TreeStumpObject.transform.position + new Vector3(-0.5f, 0.5f, 0f), Quaternion.identity);
+                    GameObject ThreadObject2 = Instantiate(ThreadPrefab, TreeStumpObject.transform.position + new Vector3(0.5f, 0.5f, 0f), Quaternion.identity);
+
+                    //인벤토리에 나무 도막 아이템 추가
+                    InventoryManager.AddItem(new Item("실", 2, "Thread", "재료"));
+                    
+                    //나뭇 아이템 3초 뒤 제거
+                    StartCoroutine(DestroyAfterDelay(ThreadObject1, 3f));
+                    StartCoroutine(DestroyAfterDelay(ThreadObject2, 3f));
+
+                    currentTreeCollider = null;
+                }
+            }
+        }
+
+        
 
         isLogging = false; 
     }
