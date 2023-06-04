@@ -66,19 +66,6 @@ public class Item
         imageName = newImageName;
     }
 
-    /*
-        //아이템의 이미지의 이름 가져올때 사용
-        public int GetSlotNumber()
-        {
-            return slotnumber;
-        }
-        //아이템의 이미지의 이름 지정할때 사용
-        public void SetSlotNumber(int newSlotNumber)
-        {
-            slotnumber = newSlotNumber;
-        }
-    */
-
     //아이템의 종류 가져올때 사용
     public string GetItemType()
     {

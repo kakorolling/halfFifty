@@ -38,6 +38,8 @@ public class SamplePlayerController : MonoBehaviour
     private float animationDuration;
    
     Item Usingitem;
+
+    string wearingClothes;
     
     enum FarmerBasicStates
     {
@@ -74,6 +76,15 @@ public class SamplePlayerController : MonoBehaviour
 
     // animationStates 15 ~ 16 is in Logging.cs
     // animationStates 17 ~ 20 is in Fishing.cs
+
+    enum ShuBasicStates
+    {
+        idle = 21,
+        up = 22,
+        down = 23,
+        left = 24,
+        right = 25
+    }
 
 
     private void Start()
@@ -165,9 +176,10 @@ public class SamplePlayerController : MonoBehaviour
         transform.Translate(movement * applySpeed * Time.deltaTime);
 
         this.Usingitem = QuickSlotController.Usingitem;
+        this.wearingClothes = QuickSlotController.wearingClothes;
        
         // 기본 농부
-        if(Usingitem.GetName() == "")
+        if((Usingitem.GetName() == "") && (wearingClothes == "농부 의상"))
         {
             animator.enabled = false;
             PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Farmer_Basic/Farmer_Basic_Basic");
@@ -199,7 +211,7 @@ public class SamplePlayerController : MonoBehaviour
         }
 
         
-        else if(Usingitem.GetImageName() == "WoodAxe")
+        else if((Usingitem.GetImageName() == "WoodAxe") && (wearingClothes == "농부 의상"))
         {
             animator.enabled = false;
             PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Farmer_WoodAxe/Farmer_WoodAxe_Basic");
@@ -228,14 +240,13 @@ public class SamplePlayerController : MonoBehaviour
             
         }
 
-        else if(Usingitem.GetImageName() == "FishingRod")
+        else if((Usingitem.GetImageName() == "FishingRod") && (wearingClothes == "농부 의상"))
         {
             animator.enabled = false;
             PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Farmer_FishingRod/Farmer_FishingRod_Basic");
             animator.SetInteger(animationState, (int)FarmerFishingRodStates.idle);
             animator.enabled = true;
-            
-            
+
             if (moveX > 0)
             {
                 animator.SetInteger(animationState, (int)FarmerFishingRodStates.right);
@@ -253,9 +264,33 @@ public class SamplePlayerController : MonoBehaviour
                 animator.SetInteger(animationState, (int)FarmerFishingRodStates.down);
             }
            
-            
-            
         }
+
+        else if((Usingitem.GetName() == "") && (wearingClothes == "슈 의상"))
+        {
+            animator.enabled = false;
+            PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Shu_Basic/Shu_Basic_Basic");
+            animator.SetInteger(animationState, (int)ShuBasicStates.idle);
+            animator.enabled = true;
+
+            if (moveX > 0)
+            {
+                animator.SetInteger(animationState, (int)ShuBasicStates.right);
+            }
+            else if (moveX < 0)
+            {
+                animator.SetInteger(animationState, (int)ShuBasicStates.left);
+            }
+            else if (moveY > 0)
+            {
+                animator.SetInteger(animationState, (int)ShuBasicStates.up);
+            }
+            else if (moveY < 0)
+            {
+                animator.SetInteger(animationState, (int)ShuBasicStates.down);
+            }
+
+        } 
         
     }
             

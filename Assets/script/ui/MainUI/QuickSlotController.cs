@@ -21,6 +21,9 @@ public class QuickSlotController : MonoBehaviour
     // 퀵슬롯을 눌러 사용중인 아이템
     public Item Usingitem;
 
+    // 퀵슬롯을 눌러 입고 있는 의상의 이름
+    public string wearingClothes;
+
     [SerializeField] private GameObject QuickSlotContainer;
     
     void Start()
@@ -29,6 +32,7 @@ public class QuickSlotController : MonoBehaviour
         //selectedSlot = 0;
 
         Usingitem = new Item("", 0, "", "");
+        wearingClothes = "농부 의상";
     }
 
     // Update is called once per frame
@@ -37,18 +41,6 @@ public class QuickSlotController : MonoBehaviour
         TryInputNumber();
     }
 
-    /*
-    private void ChangeSlot(int _num)
-    {
-        SelectedSlot(_num);
-    }
-
-    private void SelectedSlot(int _num)
-    {
-        selectedSlot = _num; //선택된 슬롯
-        
-    }
-    */
 
     private void TryInputNumber()
     {
@@ -64,9 +56,14 @@ public class QuickSlotController : MonoBehaviour
             {
                 foreach(Item ItemInInventory in InventoryManager.inventoryItems)
                 {
-                    if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
+                    if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() != "의상"))
                     {
                         Usingitem = ItemInInventory;
+                    }
+                    else if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() == "의상"))
+                    {
+                        wearingClothes = ItemInInventory.GetName();
+                        Debug.Log(wearingClothes);
                     }
                 }
             }
@@ -90,10 +87,13 @@ public class QuickSlotController : MonoBehaviour
             {
                 foreach(Item ItemInInventory in InventoryManager.inventoryItems)
                 {
-                    if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
+                    if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() != "의상"))
                     {
-                        Debug.Log(SelectedQuickSlotItemImage.sprite.name);
                         Usingitem = ItemInInventory;
+                    }
+                    else if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() == "의상"))
+                    {
+                        wearingClothes = ItemInInventory.GetName();
                     }
                 }
             }
@@ -117,9 +117,13 @@ public class QuickSlotController : MonoBehaviour
             {
                 foreach(Item ItemInInventory in InventoryManager.inventoryItems)
                 {
-                    if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
+                    if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() != "의상"))
                     {
                         Usingitem = ItemInInventory;
+                    }
+                    else if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() == "의상"))
+                    {
+                        wearingClothes = ItemInInventory.GetName();
                     }
                 }
             }
@@ -143,9 +147,13 @@ public class QuickSlotController : MonoBehaviour
             {
                 foreach(Item ItemInInventory in InventoryManager.inventoryItems)
                 {
-                    if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
+                    if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() != "의상"))
                     {
                         Usingitem = ItemInInventory;
+                    }
+                    else if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() == "의상"))
+                    {
+                        wearingClothes = ItemInInventory.GetName();
                     }
                 }
             }
@@ -169,10 +177,13 @@ public class QuickSlotController : MonoBehaviour
             {
                 foreach(Item ItemInInventory in InventoryManager.inventoryItems)
                 {
-                    if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
+                    if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() != "의상"))
                     {
-                        Debug.Log(SelectedQuickSlotItemImage.sprite.name);
                         Usingitem = ItemInInventory;
+                    }
+                    else if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() == "의상"))
+                    {
+                        wearingClothes = ItemInInventory.GetName();
                     }
                 }
             }
@@ -196,9 +207,13 @@ public class QuickSlotController : MonoBehaviour
             {
                 foreach(Item ItemInInventory in InventoryManager.inventoryItems)
                 {
-                    if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
+                    if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() != "의상"))
                     {
                         Usingitem = ItemInInventory;
+                    }
+                    else if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() == "의상"))
+                    {
+                        wearingClothes = ItemInInventory.GetName();
                     }
                 }
             }
@@ -222,9 +237,13 @@ public class QuickSlotController : MonoBehaviour
             {
                 foreach(Item ItemInInventory in InventoryManager.inventoryItems)
                 {
-                    if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
+                    if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() != "의상"))
                     {
                         Usingitem = ItemInInventory;
+                    }
+                    else if((ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name) && (ItemInInventory.GetItemType() == "의상"))
+                    {
+                        wearingClothes = ItemInInventory.GetName();
                     }
                 }
             }
