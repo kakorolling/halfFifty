@@ -58,9 +58,9 @@ public class CraftingTableConfirmManager : MonoBehaviour
             if(InventoryManager.CheckItem(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, "")))
             {
                 InventoryManager.DeleteItemByImage(new Item("", int.Parse(itemIngredientAmount1), itemIngredientImage1.sprite.name, ""));
-                InventoryManager.AddItem(new Item("itemName", 1, itemImage.sprite.name, itemType));
+                InventoryManager.AddItem(new Item(itemName, 1, itemImage.sprite.name, itemType));
                 ConfirmImageText.GetComponent<Text>().text = "제작되었습니다.";
-                //Debug.Log(itemType);
+                //Debug.Log(itemName);
             }
             else
             {
@@ -126,7 +126,7 @@ public class CraftingTableConfirmManager : MonoBehaviour
         }
 
         ConfirmImage.SetActive(true);
-        SceneManager.LoadScene("Scene4");
+        //SceneManager.LoadScene("Scene4");
     
     }
    
@@ -146,9 +146,13 @@ public class CraftingTableConfirmManager : MonoBehaviour
             Scroll = GameObject.Find("ToolScroll");
             
         }
-        else if(itemType == "음식")
+        else if(itemType == "재료")
         {
-            Scroll = GameObject.Find("FoodScroll");
+            Scroll = GameObject.Find("IngredientScroll");
+        }
+        else if(itemType == "의상")
+        {
+            Scroll = GameObject.Find("ClothesScroll");
         }
 
         //세부사항 창 닫음

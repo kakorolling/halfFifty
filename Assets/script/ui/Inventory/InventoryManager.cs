@@ -6,8 +6,10 @@ using UnityEngine.UI;
 
 public class InventoryManager
 {
-    // 인벤토리 슬롯들의 배열
-   
+    // 삭제될 아이템
+    // static Item deletingItem;
+    // static int index;
+    
 
     // 인벤토리에 보일 아이템의 배열
     public static List<Item> inventoryItems = new List<Item>();
@@ -52,6 +54,7 @@ public class InventoryManager
             if(flag)
             {
                 item.SetSlotNumber(i);
+                Debug.Log(item.GetSlotNumber());
                 break;
             }
         }
@@ -100,21 +103,31 @@ public class InventoryManager
     // 아이템의 이미지 정보로 아이템을 삭제하는 메소드
     public static void DeleteItemByImage(Item item)
     {
+        Item deletingItem;
+        
+
         foreach(Item ItemInInventory in inventoryItems)
         {
             if(ItemInInventory.GetImageName() == item.GetImageName() && ItemInInventory.GetAmount() >= item.GetAmount())
             {
                 ItemInInventory.SetAmount(ItemInInventory.GetAmount() - item.GetAmount());
+                Debug.Log(ItemInInventory.GetAmount());
 
                 if(ItemInInventory.GetAmount() == 0)
                 {
-                    inventoryItems.Remove(item);
+                    deletingItem = ItemInInventory;
+                    RemoveItem(deletingItem);
+                    break;
                 }
             }
         }
         ShowItem();
     }
 
+    public static void RemoveItem(Item deletingItem)
+    {
+        inventoryItems.Remove(deletingItem);
+    }
 
     
 
@@ -128,6 +141,12 @@ public class InventoryManager
         {
             return;
         }
+
+        foreach(GameObject slot in slots)
+        {
+            slot.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UIImage/CommonUIImage/Transparent");
+            slot.transform.GetChild(1).GetComponent<Text>().text = "";
+        }
         
         for (int i = 0; i < inventoryItems.Count; i++)
         {
@@ -138,7 +157,7 @@ public class InventoryManager
                 continue;
             }
 
-            // 변수에 inventoryItems배열에 있는 아이템들의 정보를 할당
+            // 변수에 inventoryItems 배열에 있는 아이템들의 정보를 할당
             string itemName = inventoryItems[i].GetName();
             int itemAmount = inventoryItems[i].GetAmount();
             string itemImage = inventoryItems[i].GetImageName();

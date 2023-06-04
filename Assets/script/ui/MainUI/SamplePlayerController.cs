@@ -99,21 +99,20 @@ public class SamplePlayerController : MonoBehaviour
 
         this.Usingitem = QuickSlotController.Usingitem;
         
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-        {
-            animator.speed = applySpeed / 2.0f;
-        }
-        else
-        {
-            animator.speed = 1f;
-        }
+        // if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        // {
+        //     animator.speed = applySpeed / 2.0f;
+        // }
+        // else
+        // {
+        //     animator.speed = 1f;
+        // }
 
         if(Usingitem.GetName() == "" || Usingitem.GetName() == "나무 도끼")
         {
             isLogging = LoggingManager.isLogging;
             if(Input.GetKeyDown(KeyCode.F) && !isLogging)
             {   
-                Debug.Log("goood");
                 LoggingManager.TryStartLogging();
                 
             }
@@ -124,7 +123,6 @@ public class SamplePlayerController : MonoBehaviour
             isFishing = FishingManager.isFishing;
             if(Input.GetKeyDown(KeyCode.F) && !isFishing)
             {   
-                Debug.Log("FISHING");
                 FishingManager.TryStartFishing();
                 
             }

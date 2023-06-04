@@ -92,6 +92,7 @@ public class QuickSlotController : MonoBehaviour
                 {
                     if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
                     {
+                        Debug.Log(SelectedQuickSlotItemImage.sprite.name);
                         Usingitem = ItemInInventory;
                     }
                 }
@@ -170,6 +171,7 @@ public class QuickSlotController : MonoBehaviour
                 {
                     if(ItemInInventory.GetImageName() == SelectedQuickSlotItemImage.sprite.name)
                     {
+                        Debug.Log(SelectedQuickSlotItemImage.sprite.name);
                         Usingitem = ItemInInventory;
                     }
                 }

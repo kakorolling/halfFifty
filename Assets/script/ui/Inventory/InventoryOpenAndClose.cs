@@ -6,20 +6,31 @@ using UnityEngine;
 public class InventoryOpenAndClose : MonoBehaviour
 {
     public GameObject inventoryPanel;
-    bool activelInventory = false;
+    static bool activelInventory = false;
     
-    private void Start(){
+    private void Start()
+    {
         inventoryPanel.SetActive(activelInventory);
     }
 
-    private void Update(){
-        if(Input.GetKeyDown(KeyCode.E))
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.E) && activelInventory == false)
         {
             activelInventory = !activelInventory;
-            inventoryPanel.SetActive(activelInventory);
-
-            InventoryManager.ShowItem();
+            inventoryPanel.SetActive(true);
+        }
+        else if(Input.GetKeyDown(KeyCode.E) && activelInventory == true)
+        {
+            activelInventory = !activelInventory;
+            inventoryPanel.SetActive(false);
         }
         
+    }
+
+    public void ExitButtonClick()
+    {
+        activelInventory = false;
+        inventoryPanel.SetActive(false);
     }
 }

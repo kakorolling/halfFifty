@@ -31,12 +31,11 @@ public class Logging : MonoBehaviour
         GetComponent<SamplePlayerController>().enabled = false;
         
         //주변에 콜라이더 오브젝트 탐색
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 3f);
+        GetComponent<Collider2D>().enabled = false;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 2.5f);
        
         foreach (Collider2D collider in colliders)
         {
-            Debug.Log("good");
-            
             animator = GetComponent<Animator>();
             
             // 탐색된 콜라이더 오브젝트의 태그가 tree인지 확인
@@ -85,6 +84,7 @@ public class Logging : MonoBehaviour
     private void FinishLogging()
     {
         GetComponent<SamplePlayerController>().enabled = true;
+        GetComponent<Collider2D>().enabled = true;
         QuickSlotController = FindObjectOfType<QuickSlotController>();
         Item Usingitem = QuickSlotController.Usingitem;
         Debug.Log("벌목이 완료되었습니다.");

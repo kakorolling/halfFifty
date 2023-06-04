@@ -6,19 +6,35 @@ using UnityEngine;
 public class CraftingTableOpenAndClose : MonoBehaviour
 {
     public GameObject CraftingTable;
-    bool activelCraftingTable = false;
+    public GameObject CraftingTableDetailImage;
+    static bool activelCraftingTable = false;
     
-    private void Start(){
+    private void Start()
+    {
         CraftingTable.SetActive(activelCraftingTable);
-        Debug.Log("good");
     }
 
-    private void Update(){
-        if(Input.GetKeyDown(KeyCode.E))
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.O) && activelCraftingTable == false)
         {
-            Debug.Log("good");
             activelCraftingTable = !activelCraftingTable;
-            CraftingTable.SetActive(activelCraftingTable);
+            CraftingTable.SetActive(true);
         }
+        else if(Input.GetKeyDown(KeyCode.O) && activelCraftingTable == true)
+        {
+            activelCraftingTable = !activelCraftingTable;
+            CraftingTable.SetActive(false);
+            CraftingTableDetailImage.SetActive(false);
+        }
+        
     }
+
+    public void ExitButtonClick()
+    {
+        activelCraftingTable = false;
+        CraftingTable.SetActive(false);
+        CraftingTableDetailImage.SetActive(false);
+    }
+
 }
