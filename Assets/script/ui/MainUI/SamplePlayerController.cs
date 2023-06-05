@@ -86,6 +86,25 @@ public class SamplePlayerController : MonoBehaviour
         right = 25
     }
 
+    enum ShuWoodAxeStates
+    {
+        idle = 26,
+        up = 27,
+        down = 28,
+        left = 29,
+        right = 30
+    }
+
+    enum ShuFishingRodStates
+    {
+        idle = 31,
+        up = 32,
+        down = 33,
+        left = 34,
+        right = 35
+    }
+    
+
 
     private void Start()
     {
@@ -266,7 +285,7 @@ public class SamplePlayerController : MonoBehaviour
            
         }
 
-        else if((Usingitem.GetName() == "") && (wearingClothes == "슈 의상"))
+        else if((Usingitem.GetImageName() == "") && (wearingClothes == "슈 의상"))
         {
             animator.enabled = false;
             PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Shu_Basic/Shu_Basic_Basic");
@@ -292,6 +311,58 @@ public class SamplePlayerController : MonoBehaviour
 
         } 
         
+        else if((Usingitem.GetImageName() == "WoodAxe") && (wearingClothes == "슈 의상"))
+        {
+            Debug.Log("good");
+            animator.enabled = false;
+            PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Shu_WoodAxe/Shu_WoodAxe_Basic");
+            animator.SetInteger(animationState, (int)ShuWoodAxeStates.idle);
+            animator.enabled = true;
+
+            if (moveX > 0)
+            {
+                animator.SetInteger(animationState, (int)ShuWoodAxeStates.right);
+            }
+            else if (moveX < 0)
+            {
+                animator.SetInteger(animationState, (int)ShuWoodAxeStates.left);
+            }
+            else if (moveY > 0)
+            {
+                animator.SetInteger(animationState, (int)ShuWoodAxeStates.up);
+            }
+            else if (moveY < 0)
+            {
+                animator.SetInteger(animationState, (int)ShuWoodAxeStates.down);
+            }
+
+        }
+
+        else if((Usingitem.GetImageName() == "FishingRod") && (wearingClothes == "슈 의상"))
+        {
+            animator.enabled = false;
+            PlayerSample.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/PlayerImage/Shu_FishingRod/Shu_FishingRod_Basic");
+            animator.SetInteger(animationState, (int)ShuFishingRodStates.idle);
+            animator.enabled = true;
+
+            if (moveX > 0)
+            {
+                animator.SetInteger(animationState, (int)ShuFishingRodStates.right);
+            }
+            else if (moveX < 0)
+            {
+                animator.SetInteger(animationState, (int)ShuFishingRodStates.left);
+            }
+            else if (moveY > 0)
+            {
+                animator.SetInteger(animationState, (int)ShuFishingRodStates.up);
+            }
+            else if (moveY < 0)
+            {
+                animator.SetInteger(animationState, (int)ShuFishingRodStates.down);
+            }
+
+        } 
     }
             
     
