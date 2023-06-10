@@ -11,7 +11,7 @@ public class CraftingTableImageClick : MonoBehaviour, IPointerClickHandler
     GameObject clickedObject;
     Dictionary<string, string[]> dic = new Dictionary<string, string[]>()
     {
-        {"나무 도끼", new string[]{"종류: 도구", "벌목 할 수 있는 나무 도끼입니다. 벌목시 나무 도막을 2개 획득합니다."}},
+        {"나무 도끼", new string[]{"종류: 도구", "벌목 할 수 있는 나무 도끼입니다. 일반 나무 벌목시 나무 도막을 2개 획득합니다. 목화 나무 벌목시 실을 2개 획득합니다."}},
         {"나무 낫", new string[]{"종류: 도구", "농작물을 수확 할 수 있는 나무 낫입니다."}},
         {"나무 곡괭이", new string[]{"종류: 도구", "광물을 캘 수 있는 나무 곡괭이입니다."}},
         {"나무 갈퀴", new string[]{"종류: 도구", "땅의 상태를 농사가 가능한 상태로 바꿀 수 있는 나무 갈퀴입니다."}},

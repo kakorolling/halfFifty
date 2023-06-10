@@ -13,9 +13,6 @@ public class Item
     //아이템의 이미지의 이름(이미지를 보이게 할때 필요)
     private string imageName;
 
-    //아이템이 인벤토리의 몇번째 슬롯에 있는지 나타내는 숫자
-    //private int slotnumber;
-
     //아이템의 종류
     private string itemType;
 
